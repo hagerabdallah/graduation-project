@@ -1,65 +1,85 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use App\Models\User;
+
+
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-class usercontroller extends Controller
+
+
+
+class UserController extends Controller
 {
-    function create (Request $request){
-
+    public function create (Request $request){
+        
         $request->validate([
-    'first_name' => 'required',
-    'last_name' => 'required',
-    'email'=>'required|email|unique:users,email',
-    'password'=>'required|min:5|max:30',
-    'phone'=>'required',
-    'img'=>'image|mimes:jpg,png',
-    'city'=>'required',
-
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'email'=>'required|email|unique:users,email',
+        'password'=>'required|min:5|max:30',
+        'phone'=>'required',
+        'img'=>'image|mimes:jpg,png',
+        'city'=>'required',
         ]);
         
-        $user = User::create([
-            'first_name' => $request->firstname,
-            'last_name' => $request->lastname,
+        
+        $user=User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => encrypt($request->password),
+            'password'=> Hash::make($request->password),
+            'img'=>$request->img,
+            'phone'=>$request->phone,
+            'city'=>$request->city,
            
         ]);
 
+        Auth::login($user);
+        if( $user)
+                  {
+                    return view('dashboard.user.home')->with('success',' successfully');
+                  }
 
-    }
+
+                  else{  return back()->with('fail','Something went wrong, failed to update');}
+               
+
+                
+            }
+    
         
 
-    function check (Request $request){
-       $user= $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email'=>'required|email|unique:users,email',
-            'password'=>'required|min:5|max:30'
-        
-                ]);
-      if(!Auth()->guard('web')->attempt(['email'=>$user['email'],'password'=>$user['password']]))
-         {
-             return back();
-         }else
-         {
-            return redirect (route('user.home'));  
-         }
+    public function check (Request $request){
+        $request->validate(
+            [
+                
+                'email'=>'required|email|exists:users,email',
+                'password'=>'required|min:5|max:30',
+                
+    
+            ]);
+    
+            $is_login=$request->only('email','password');
+            if(auth::attempt($is_login) )
+            {
+                return redirect()->route('user.home');
+            }
+            else
+            {
+                return redirect()->route('user.login');
+            }
+    
 
     }
-    public function logout()
-    {
-
-     auth()->guard('web')->logout();
-
-            return redirect (route('user.login'));
-
-         
+    
+    function logout(){
+        Auth::guard('web')->logout();
+        return redirect('/');
     }
 
 

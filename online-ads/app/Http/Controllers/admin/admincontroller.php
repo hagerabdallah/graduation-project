@@ -6,21 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class admincontroller extends Controller
+class AdminController extends Controller
 {
     function check (Request $request){
-        $admin= $request->validate([
-             'email'=>'required|email|unique:users,email',
-             'password'=>'required|min:5|max:30'
-         
-                 ]);
-       if(!Auth()->guard('admin')->attempt(['email'=>$admin['email'],'password'=>$admin['password']]))
-          {
-              return back();
-          }else
-          {
-             return redirect (route('admin.home'));  
-          }
+        $request->validate(
+            [
+                'email'=>'required|email|exists:admins,email',
+                'password'=>'required|min:5|max:30',
+        
+            ]);
+            $creds=$request->only('email','password');
+            if(Auth::guard('admin')->attempt($creds))
+            {
+            return redirect()->route('admin.home');
+            }
+            else{
+                return redirect()->route('admin.login')->with('fail','Incorrect credentials');
+            }
  
      }
      public function logout()
