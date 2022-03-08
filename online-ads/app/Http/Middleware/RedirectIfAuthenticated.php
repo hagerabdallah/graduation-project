@@ -27,8 +27,10 @@ class RedirectIfAuthenticated
                 {
                     return redirect()->route('admin.home');
                 }
+                 
+                return redirect()->route('user.home');
               
-                return redirect(RouteServiceProvider::HOME);
+            //  return redirect(RouteServiceProvider::HOME);
             }
         }
 

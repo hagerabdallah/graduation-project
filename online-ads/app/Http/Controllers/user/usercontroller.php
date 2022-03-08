@@ -39,10 +39,11 @@ class UserController extends Controller
            
         ]);
 
-        Auth::login($user);
+      
         if( $user)
                   {
-                    return view('user.home')->with('success',' successfully');
+                    Auth::login($user);
+                    return view('dashboard.user.home')->with('success',' successfully');
                   }
 
 
