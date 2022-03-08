@@ -16,15 +16,18 @@ class usercontroller extends Controller
     'first_name' => 'required',
     'last_name' => 'required',
     'email'=>'required|email|unique:users,email',
-    'password'=>'required|min:5|max:30'
+    'password'=>'required|min:5|max:30',
+    'phone'=>'required',
+    'img'=>'image|mimes:jpg,png',
+    'city'=>'required',
 
         ]);
         
         $user = User::create([
-            'first_name' => request()->firstname,
-            'last_name' => request()->lastname,
-            'email' => request()->email,
-            'password' => encrypt(request()->password),
+            'first_name' => $request->firstname,
+            'last_name' => $request->lastname,
+            'email' => $request->email,
+            'password' => encrypt($request->password),
            
         ]);
 
