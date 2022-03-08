@@ -54,12 +54,12 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
   Route::middleware(['auth','preventBackHistory'])->group(function () {
     Route::view('/home', 'dashboard.admin.home')->name('home');  
-    Route::post('/logout', [AdminController::class,'check'])->name('logout');
+    Route::post('/logout', [AdminController::class,'logout'])->name('logout');
 
  });
  Route::middleware(['guest','preventBackHistory'])->group(function () {
  
-  Route::view('/login', 'dashboard.admin.login')->name('login');
+    Route::view('/login', 'dashboard.admin.login')->name('login');
     Route::post('/check', [AdminController::class,'check'])->name('check');
 
  });
