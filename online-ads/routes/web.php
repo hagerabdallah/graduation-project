@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoriesController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\admin\AdminController;
+
+use App\Http\Controllers\CategoriesController; 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,4 +26,46 @@ use App\Http\Controllers\CategoriesController;
  Route::get('/categories/edit/{id}',[CategoriesController::class,'edit'])->name('categories.edit');
  Route::post('/categories/update/{id}',[CategoriesController::class,'update'])->name('categories.update');
 
+
  
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::prefix('user')->name('user.')->group(function () {
+   
+    Route::middleware(['guest'])->group(function () {
+      Route::view('/login', 'dashboard.user.login')->name('login');
+      Route::view('/register', 'dashboard.user.register')->name('register');
+      Route::post('/create', [UserController::class,'create'])->name('create');
+      Route::post('/check', [UserController::class,'check'])->name('check');
+     
+
+   });
+    Route::middleware(['auth','preventBackHistory'])->group(function () {
+      Route::view('/home', 'dashboard.user.home')->name('home');  
+      Route::post('/logout', [UserController::class,'logout'])->name('logout');
+    });
+});
+
+route::prefix('admin')->name('admin.')->group(function(){
+
+  Route::middleware(['auth','preventBackHistory'])->group(function () {
+    Route::view('/home', 'dashboard.admin.home')->name('home');  
+    Route::post('/logout', [AdminController::class,'check'])->name('logout');
+
+ });
+ Route::middleware(['guest','preventBackHistory'])->group(function () {
+ 
+  Route::view('/login', 'dashboard.admin.login')->name('login');
+    Route::post('/check', [AdminController::class,'check'])->name('check');
+
+ });
+
+
+ });
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
