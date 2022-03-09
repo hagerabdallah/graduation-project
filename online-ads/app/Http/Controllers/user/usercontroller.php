@@ -39,7 +39,7 @@ class UserController extends Controller
            
         ]);
 
-        Auth::login($user);
+      
         if( $user)
                   {
                     return view('dashboard.user.home')->with('success',' successfully');

@@ -31,24 +31,25 @@ use App\Http\Controllers\CategoriesController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+################################################user#########################################
 Auth::routes();
 
 Route::prefix('user')->name('user.')->group(function () {
-   
-    Route::middleware(['guest','preventBackHistory'])->group(function () {
+      //guest
+      Route::middleware(['guest','preventBackHistory'])->group(function () {
       Route::view('/login', 'dashboard.user.login')->name('login');
       Route::view('/register', 'dashboard.user.register')->name('register');
       Route::post('/create', [UserController::class,'create'])->name('create');
       Route::post('/check', [UserController::class,'check'])->name('check');
-     
-
-   });
-    Route::middleware(['auth','preventBackHistory'])->group(function () {
+      });
+      //auth
+      Route::middleware(['auth','preventBackHistory'])->group(function () {
       Route::view('/home', 'dashboard.user.home')->name('home');  
       Route::post('/logout', [UserController::class,'logout'])->name('logout');
-    });
+      });
 });
+###################################################admin#################################################3
+
 
 Route::prefix('admin')->name('admin.')->group(function(){
 
