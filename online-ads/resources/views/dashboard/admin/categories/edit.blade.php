@@ -1,4 +1,4 @@
-<form method="POST" action="{{route('categories.update',$categories->id)}}" enctype="multipart/form-data"  >
+<form method="POST" action="{{route('admin.categories.update',$categories->id)}}" enctype="multipart/form-data"  >
     @csrf
     @if (Session::get('success'))
     <div class="alert alert-success">

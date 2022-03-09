@@ -48,6 +48,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
     }
+    // public function boot()
+    // {
+    //     //
+    //     parent::boot();
+
+    //     Route::bind('job', function ($id) {
+    //         return EmployersJobs::findOrFail($id);
+    //     });
+        
+    // }
 
     /**
      * Configure the rate limiters for the application.
@@ -60,4 +70,5 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
 }

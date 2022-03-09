@@ -1,5 +1,4 @@
-
-<form method="POST" action="{{route('categories.store')}}" enctype="multipart/form-data"  >
+<form method="POST" action="{{route('admin.categories.store')}}" enctype="multipart/form-data"  >
     @csrf
     @if (Session::get('success'))
     <div class="alert alert-success">
