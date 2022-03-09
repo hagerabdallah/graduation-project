@@ -12,7 +12,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories=category::get();
-        return view ('admin.categories.index',compact('categories'));
+        return view ('dashboard.admin.categories.index',compact('categories'));
     }
   
     public function store(request $request)
@@ -42,7 +42,7 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         $categories=category::findOrfail($id);
-        return view ('admin.categories.edit',compact('categories'));
+        return view ('dashboard.admin.categories.edit',compact('categories'));
     }
     public function update (request $request,$id)
     {
