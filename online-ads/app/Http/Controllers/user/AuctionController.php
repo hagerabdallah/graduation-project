@@ -23,8 +23,8 @@ public function index(){
     public function store(Request $request){
     
    $request->validate([
-   'name'=>'required|string|max:10',
-   'desc'=>'required|string|max:50',
+   'name'=>'required|string|max:50',
+   'desc'=>'required|string|max:100',
    'start_date'=>'required|date',
    'end_date'=>'required|date',
    'img'=>'required',
@@ -46,15 +46,15 @@ public function index(){
 }
 
 public function edit($id){
-  $auction= Auction::findOrfail($id)->get();
+  $auction= Auction::findOrfail($id);
    return view('dashboard.user.auction.edit',compact('auction'));
 }
 
 public function update(Request $request,$id){
 
     $request->validate([
-        'name'=>'required|string|max:10',
-        'desc'=>'required|string|max:50',
+        'name'=>'required|string|max:50',
+        'desc'=>'required|string|max:100',
         'start_date'=>'required|date',
         'end_date'=>'required|date',
         'img'=>'required',
