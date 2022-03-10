@@ -77,10 +77,19 @@ class UserController extends Controller
 
     }
     
-    function logout(){
+    public function logout(){
         Auth::guard('web')->logout();
         return redirect('/');
     }
+    public function profile()
+    {
+        
+        // $user=DB::table('users')->where('id',auth()->id())->first();
+        $user=User::where('id',auth()->id())->first();
+        return view ('dashboard.user.profile.index',compact('user'));
+    }
+
+  
 
 
 }
