@@ -5,8 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Price;
 use Illuminate\Http\Request;
-
-
+use PhpParser\Node\Stmt\Else_;
 
 class AuctionController extends Controller
 {
@@ -84,11 +83,30 @@ public function delete($id){
 }
 public function show ($id)
 {
-    $data['auction']=Auction::findOrfail($id);
-    return view ('dashboard.user.auction.show',with($data));
+    $auction=Auction::findOrfail($id);
+    // $price=Price::get();
+   
+    $count = Price::where('auction_id',$id)->count();
+    
+    //  dd($count);
+    //  $price=Auction::where('id','auction_id')->first();
+     $min_price=$auction->min_price;
+     $maxprice= Price::where('auction_id',$id)->max('price');
+    //  dd($maxprice);
+
+    if ($count == 0 )
+    {
+     $last_price=$min_price;
+   }
+   else
+   {
+       $last_price=$maxprice;
+   }
+   return view ('dashboard.user.auction.show',compact('last_price','auction'));
 }
 public function join (Request $request)
 {
+
 
     $request->validate([
       
@@ -96,8 +114,18 @@ public function join (Request $request)
         'auction_id'=>'required|exists:auctions,id'
         
      ]);
+     $count = Price::where('auction_id',$request->auction_id)->count();
+     //dd($count);
+     $price=Auction::where('id',$request->auction_id)->first();
+     $min_price=$price->min_price;
+     $maxprice= Price::where('auction_id',$request->auction_id)->max('price');
     
-        Price::create([
+        
+        
+    
+       if( $request->price > $maxprice and ($request->price > $min_price))
+       {
+            Price::create([
 
             'user_id'=>Auth()->id(),
             'auction_id'=>$request->auction_id,
@@ -107,8 +135,65 @@ public function join (Request $request)
         ]);
 
         return view('dashboard.user.home');
+        }
+        else{
+            session()->flash('msg', 'Successfully done the operation.');
+           
+            return redirect()->back();
+               }
+               
 
+
+    //  $min_price=Auction::where('id',$request->auction_id)->select('min_price')->first();
+    //  $price=Auction::where('id',$request->auction_id)->first();
+    //  $min_price=$price->min_price;
+     
+
+    //  $count = Price::where('auction_id',$request->auction_id)->count();
+    //  //dd($count);
+    //  if($count==0 and ($request->price>$min_price) )
+    // {
+    //     Price::create([
+
+    //                 'user_id'=>Auth()->id(),
+    //                 'auction_id'=>$request->auction_id,
+    //                 'price'=>$request->price,
+                          
+             
+    //             ]);
+    //             return view('dashboard.user.home');
+
+    // }
+    // else
+    // {
+    //     return back()->with('fail','Something went wrong, failed to update');
+    // }
+    
+
+    
+//      $maxprice= Price::where('auction_id',$request->auction_id)->max('price');
+//      if ( $request->price < $maxprice and $request->price < $min_price->min_price)
+//      {
+//         return back()->with('fail','Something went wrong, failed to update');
+//      }
+//    else{
+//     Price::create([
+
+//         'user_id'=>Auth()->id(),
+//         'auction_id'=>$request->auction_id,
+//         'price'=>$request->price,
+              
+ 
+//     ]);
+
+//     return view('dashboard.user.home');
+   
+    //    }
+    
+       
+
+}
 }
 
 
-}
+

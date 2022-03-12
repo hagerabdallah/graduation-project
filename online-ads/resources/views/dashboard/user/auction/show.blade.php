@@ -12,3 +12,5 @@
    
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+<h1>{{$last_price}}<h1>
+  
