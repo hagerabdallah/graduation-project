@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
   use App\Models\Auction;
 use App\Http\Controllers\Controller;
+use App\Models\Price;
 use Illuminate\Http\Request;
 
 
@@ -80,6 +81,33 @@ public function update(Request $request,$id){
 
 public function delete($id){
     Auction::findOrfail($id)->delete();
+}
+public function show ($id)
+{
+    $data['auction']=Auction::findOrfail($id);
+    return view ('dashboard.user.auction.show',with($data));
+}
+public function join (Request $request)
+{
+
+    $request->validate([
+      
+        'price'=>'required|numeric',
+        'auction_id'=>'required|exists:auctions,id'
+        
+     ]);
+    
+        Price::create([
+
+            'user_id'=>Auth()->id(),
+            'auction_id'=>$request->auction_id,
+            'price'=>$request->price,
+                  
+     
+        ]);
+
+        return view('dashboard.user.home');
+
 }
 
 

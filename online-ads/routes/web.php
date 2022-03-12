@@ -59,13 +59,20 @@ Route::prefix('user')->name('user.')->group(function () {
       //end advertisment CRUD
       
       //Auction CRUD
-      Route::get('/auction/index', [AuctionController::class,'index'])->name('auction.index');
+       Route::get('/auction/index', [AuctionController::class,'index'])->name('auction.index');
        Route::get('/auction/create', [AuctionController::class,'create'])->name('auction.create');
        Route::post('/auction/store',[AuctionController::class,'store'])->name('auction.store');
        Route::get('auction/edit/{id}',[AuctionController::class,'edit'])->name('auction.edit');
        Route::post('auction/update/{id}',[AuctionController::class,'update'])->name('auction.update');
        Route::get('auction/delete/{id}',[AuctionController::class,'delete'])->name('auction.delete');
+       Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
+       Route::post('/auction/join',[AuctionController::class,'join'])->name('auction.join');
       //end Auction CRUD
+      //profile
+      Route::get('/profile',[UserController::class,'profile'])->name('profile');
+      Route::get('/profile/edit/{id}',[UserController::class,'edit'])->name('profile.edit');
+      Route::post('/profile/update/{id}',[UserController::class,'update'])->name('profile.update');
+     
       
      
       });
