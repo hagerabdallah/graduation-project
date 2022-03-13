@@ -67,6 +67,7 @@ Route::prefix('user')->name('user.')->group(function () {
        Route::get('auction/delete/{id}',[AuctionController::class,'delete'])->name('auction.delete');
        Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
        Route::post('/auction/join',[AuctionController::class,'join'])->name('auction.join');
+ 
       //end Auction CRUD
       //profile
       Route::get('/profile',[UserController::class,'profile'])->name('profile');

@@ -88,6 +88,8 @@ class UserController extends Controller
         $user=User::where('id',auth()->id())->first();
         return view ('dashboard.user.profile.index',compact('user'));
     }
+    
+
 
   
 

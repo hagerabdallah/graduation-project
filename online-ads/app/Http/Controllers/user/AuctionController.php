@@ -11,7 +11,7 @@ class AuctionController extends Controller
 {
 
 public function index(){
-    $auction=Auction::get();
+    $auction=Auction::where('user_id',auth()->id())->get();
     return view('dashboard.user.auction.index',compact('auction'));
 }
 
@@ -141,59 +141,5 @@ public function join (Request $request)
            
             return redirect()->back();
                }
-               
-
-
-    //  $min_price=Auction::where('id',$request->auction_id)->select('min_price')->first();
-    //  $price=Auction::where('id',$request->auction_id)->first();
-    //  $min_price=$price->min_price;
-     
-
-    //  $count = Price::where('auction_id',$request->auction_id)->count();
-    //  //dd($count);
-    //  if($count==0 and ($request->price>$min_price) )
-    // {
-    //     Price::create([
-
-    //                 'user_id'=>Auth()->id(),
-    //                 'auction_id'=>$request->auction_id,
-    //                 'price'=>$request->price,
-                          
-             
-    //             ]);
-    //             return view('dashboard.user.home');
-
-    // }
-    // else
-    // {
-    //     return back()->with('fail','Something went wrong, failed to update');
-    // }
-    
-
-    
-//      $maxprice= Price::where('auction_id',$request->auction_id)->max('price');
-//      if ( $request->price < $maxprice and $request->price < $min_price->min_price)
-//      {
-//         return back()->with('fail','Something went wrong, failed to update');
-//      }
-//    else{
-//     Price::create([
-
-//         'user_id'=>Auth()->id(),
-//         'auction_id'=>$request->auction_id,
-//         'price'=>$request->price,
-              
- 
-//     ]);
-
-//     return view('dashboard.user.home');
-   
-    //    }
-    
-       
-
+   }
 }
-}
-
-
-
