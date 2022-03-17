@@ -3,8 +3,11 @@
 use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\adminController;
+use App\Http\Controllers\admin\AdsController;
+use App\Http\Controllers\admin\ClientsController;
 use App\Http\Controllers\user\AdvertismentController;
+
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\user\AuctionController;
@@ -56,8 +59,9 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::get('/advertisment/delete/{id}',[AdvertismentController::class,'delete'])->name('advertisment.delete');
       Route::get('/advertisment/edit/{id}',[AdvertismentController::class,'edit'])->name('advertisment.edit');
       Route::post('/advertisment/update/{id}',[AdvertismentController::class,'update'])->name('advertisment.update');
-      
-
+      Route::post('/advertisment/wishlist',[AdvertismentController::class,'addtowishlist'])->name('advertisment.addtowishlist');
+      Route::get('/advertisment/show/{id}',[AdvertismentController::class,'show'])->name('advertisment.show');
+      Route::get('/advertisment/favoriets',[AdvertismentController::class,'favoriets'])->name('advertisment.favoriets');
       //end advertisment CRUD
       
       //Auction CRUD
@@ -75,32 +79,48 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::get('/profile',[UserController::class,'profile'])->name('profile');
       Route::get('/profile/edit/{id}',[UserController::class,'edit'])->name('profile.edit');
       Route::post('/profile/update/{id}',[UserController::class,'update'])->name('profile.update');
+      
      
       
      
       });
 });
 ###################################################admin#################################################
+Auth::routes();
 Route::prefix('admin')->name('admin.')->group(function(){
 
   Route::middleware(['auth:admin',])->group(function(){
       Route::view('/home','dashboard.admin.home')->name('home');
-      Route::post('/logout',[AdminController::class,'logout'])->name('logout');
-      Route::view('/categories/create','dashboard.admin.categories.create')->name('categories.create');
+      Route::post('/logout',[adminController::class,'logout'])->name('logout');
+      // new
+      Route::get('/advertisment/create',[AdsController::class,'create'])->name('advertisment.create');
+      Route::Post('/advertisment/store', [AdsController::class,'store'])->name('advertisment.store');
+      Route::get('/advertisment/index',[AdsController::class,'index'])->name('advertisment.index');
+      Route::get('/advertisment/delete/{id}',[AdsController::class,'delete'])->name('advertisment.delete');
+      Route::get('/advertisment/edit/{id}',[AdsController::class,'edit'])->name('advertisment.edit');
+      Route::post('/advertisment/update/{id}',[AdsController::class,'update'])->name('advertisment.update');
+      Route::view('client/register', 'dashboard.admin.clients.create')->name('register');
+      Route::post('client/create', [ClientsController::class,'create'])->name('create');
+      
+      
+     
       Route::post('/categories/store',[CategoriesController::class,'store'])->name('categories.store');
       Route::get('/categories/index',[CategoriesController::class,'index'])->name('categories.index');
+      Route::view('/categories/create','dashboard.admin.categories.create')->name('categories.create');
       Route::get('/categories/delete/{id}',[CategoriesController::class,'delete'])->name('categories.delete');
       Route::get('/categories/edit/{id}',[CategoriesController::class,'edit'])->name('categories.edit');
       Route::post('/categories/update/{id}',[CategoriesController::class,'update'])->name('categories.update');
   });
 
- });
+ 
  Route::middleware(['guest','preventBackHistory'])->group(function () {
  
     Route::view('/login', 'dashboard.admin.login')->name('login');
-    Route::post('/check', [AdminController::class,'check'])->name('check');
+  
+    Route::post('/check', [adminController::class,'check'])->name('check');
 
  });
+});
 
 
 

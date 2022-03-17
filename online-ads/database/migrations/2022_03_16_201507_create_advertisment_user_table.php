@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdsListTable extends Migration
+class CreateAdvertismentUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAdsListTable extends Migration
      */
     public function up()
     {
-        Schema::create('ads_list', function (Blueprint $table) {
+        Schema::create('advertisment_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('advertisment_id')->constrained();
@@ -28,6 +28,6 @@ class CreateAdsListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads_list');
+        Schema::dropIfExists('advertisment_user');
     }
 }

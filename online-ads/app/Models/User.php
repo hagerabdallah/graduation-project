@@ -58,5 +58,9 @@ class User extends Authenticatable
             return $this->hasMany(Price::class);
         
     }
+    public function advertisment()
+    {
+        return $this->belongsToMany(Advertisment::class);
+    }
 
 }
