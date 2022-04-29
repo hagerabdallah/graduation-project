@@ -58,5 +58,16 @@ class User extends Authenticatable
             return $this->hasMany(Price::class);
         
     }
+    // many to many
+    public function advertisment()
+    {
+        return $this->belongsToMany(Advertisment::class);
+    }
+    // end 
+    public function rating()
+{
+return $this->hasMany(Rating::class);
+}
+
 
 }

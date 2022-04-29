@@ -14,3 +14,4 @@
   </form>
 <h1>{{$last_price}}<h1>
   
+  

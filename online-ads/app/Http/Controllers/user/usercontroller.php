@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\User;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+<<<<<<< HEAD
 use App\Rules\MatchOldPassword;
 
+=======
+>>>>>>> 12388c604f7c9b553834555af2465d2c86a21137
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +25,7 @@ class UserController extends Controller
         'email'=>'required|email|unique:users,email',
         'password'=>'required|min:5|max:30',
         'phone'=>'required',
-        'img'=>'image|mimes:jpg,png',
+        'img'=>'image|mimes:jpg,png,jpeg',
         'city'=>'required',
         ]);
         
@@ -76,6 +78,7 @@ class UserController extends Controller
     
 
     }
+    
     
     public function logout(){
         Auth::guard('web')->logout();
