@@ -4,11 +4,14 @@ use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AdsController;
+
 use App\Http\Controllers\user\AdvertismentController;
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\user\AuctionController;
 use App\Models\Advertisment;
+use Illuminate\Support\Facades\Notification;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -56,6 +59,8 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::get('/advertisment/delete/{id}',[AdvertismentController::class,'delete'])->name('advertisment.delete');
       Route::get('/advertisment/edit/{id}',[AdvertismentController::class,'edit'])->name('advertisment.edit');
       Route::post('/advertisment/update/{id}',[AdvertismentController::class,'update'])->name('advertisment.update');
+      
+
       //end advertisment CRUD
       
       //Auction CRUD
@@ -67,13 +72,16 @@ Route::prefix('user')->name('user.')->group(function () {
        Route::get('auction/delete/{id}',[AuctionController::class,'delete'])->name('auction.delete');
        Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
        Route::post('/auction/join',[AuctionController::class,'join'])->name('auction.join');
- 
+       Route::get('/auction/bidders/{id}',[AuctionController::class,'bidders_info'])->name('auction.bidders_info');
+       Route::get('/auction/biddersjoin',[AuctionController::class,'bidders_jion'])->name('auction.bidders_jion'); //الاوكشن اللي الشخص اشترك فيه
+
       //end Auction CRUD
       //profile
-      Route::get('/profile',[UserController::class,'profile'])->name('profile');
-      Route::get('/profile/edit/{id}',[UserController::class,'edit'])->name('profile.edit');
-      Route::post('/profile/update/{id}',[UserController::class,'update'])->name('profile.update');
-     
+     // Route::get('/profile',[UserController::class,'profile'])->name('profile');
+      Route::get('/profile/edit',[UserController::class,'edit'])->name('profile.edit');
+      Route::post('/profile/update',[UserController::class,'update'])->name('profile.update');
+      Route::get('/profile/changepass',[UserController::class,'changepass'])->name('profile.changepass');
+      Route::post('/profile/storepass',[UserController::class,'storepass'])->name('profile.storepass');
       
      
       });
@@ -84,21 +92,34 @@ Route::prefix('admin')->name('admin.')->group(function(){
   Route::middleware(['auth:admin',])->group(function(){
       Route::view('/home','dashboard.admin.home')->name('home');
       Route::post('/logout',[AdminController::class,'logout'])->name('logout');
+      //cats
       Route::view('/categories/create','dashboard.admin.categories.create')->name('categories.create');
       Route::post('/categories/store',[CategoriesController::class,'store'])->name('categories.store');
       Route::get('/categories/index',[CategoriesController::class,'index'])->name('categories.index');
       Route::get('/categories/delete/{id}',[CategoriesController::class,'delete'])->name('categories.delete');
       Route::get('/categories/edit/{id}',[CategoriesController::class,'edit'])->name('categories.edit');
       Route::post('/categories/update/{id}',[CategoriesController::class,'update'])->name('categories.update');
+      //user ads
+      Route::get('/advertisment/index',[AdsController::class,'index'])->name('ads.index');
+      Route::post('/advertisment/accept/{id}',[AdsController::class,'accept'])->name('ads.accept');
+      Route::get('/advertisment/cancle/{id}',[AdsController::class,'cancle'])->name('ads.cancle');
+      Route::get('/advertisment/create',[AdsController::class,'create'])->name('ads.create');
+      Route::post('/advertisment/srore',[AdsController::class,'store'])->name('ads.store');
+      Route::get('/advertisment/edit/{id}',[AdsController::class,'edit'])->name('ads.edit');
+      Route::post('/advertisment/update/{id}',[AdsController::class,'update'])->name('ads.update');
+      Route::get('/advertisment/delete/{id}',[AdsController::class,'delete'])->name('ads.delete');
+
+
   });
 
- });
+ 
  Route::middleware(['guest','preventBackHistory'])->group(function () {
  
     Route::view('/login', 'dashboard.admin.login')->name('login');
     Route::post('/check', [AdminController::class,'check'])->name('check');
 
  });
+});
 
 
 

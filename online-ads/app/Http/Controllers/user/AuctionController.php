@@ -4,14 +4,15 @@ namespace App\Http\Controllers\user;
   use App\Models\Auction;
 use App\Http\Controllers\Controller;
 use App\Models\Price;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Else_;
-
+ use Illuminate\Support\Collection;
 class AuctionController extends Controller
 {
 
 public function index(){
-    $auction=Auction::where('user_id',auth()->id())->get();
+    $auction=Auction::where('user_id', auth()->id())->get();
     return view('dashboard.user.auction.index',compact('auction'));
 }
 
@@ -137,9 +138,30 @@ public function join (Request $request)
         return view('dashboard.user.home');
         }
         else{
-            session()->flash('msg', 'Successfully done the operation.');
-           
+            
             return redirect()->back();
                }
-   }
+            }
+
+               public function bidders_info($id){
+                $auction=auction::findOrfail($id)->get();
+                $info= Price::where('auction_id',$id)->latest()->get();
+
+                $inf=$info->unique('user_id');
+                // $users=User::where ('id',$inf->user_id)->get();
+                return view ('dashboard.user.auction.bidders',compact('inf','auction'));
+                
+         
+           }
+
+           public function bidders_jion(){
+              $joinners=Price::where('user_id',auth()->id())->get();
+              return view('dashboard.user.auction.bidders_join',compact('joinners'));
+           }
+       
+
 }
+
+
+
+

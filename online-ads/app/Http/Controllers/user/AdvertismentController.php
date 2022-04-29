@@ -13,7 +13,7 @@ class AdvertismentController extends Controller
 
     public function index()
     {
-        $data['advertisment']=Advertisment::where('user_id', auth()->id())->get();
+        $data['advertisment']=Advertisment::where('user_id', auth()->id())->where('is_accepted','1')->get();
         $data['categories']=category::get();
         return view('dashboard.user.advertisment.index')->with($data);
 
