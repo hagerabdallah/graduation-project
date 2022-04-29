@@ -18,6 +18,7 @@ class Auction extends Model
         'end_date',
         'min_price',
         'condition',
+        'is_accepted',
         
     ];
 

@@ -12,7 +12,7 @@ class AuctionController extends Controller
 {
 
 public function index(){
-    $auction=Auction::where('user_id', auth()->id())->get();
+    $auction=Auction::where('user_id', auth()->id())->where('is_accepted','1')->get();
     return view('dashboard.user.auction.index',compact('auction'));
 }
 
@@ -105,6 +105,7 @@ public function show ($id)
    }
    return view ('dashboard.user.auction.show',compact('last_price','auction'));
 }
+
 public function join (Request $request)
 {
 

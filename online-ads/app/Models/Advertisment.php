@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Advertisment extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','desc','img','price','condition','category_id','user_id'];
+
+    protected $fillable = ['title','desc','img','price','condition','category_id','user_id','is_accepted','is_active'];
 
     // ,'category_id'
     public function category()
@@ -22,6 +23,10 @@ class Advertisment extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+    public function rating()
+    {
+    return $this->hasMany(Rating::class);
     }
 
 

@@ -7,6 +7,7 @@ use App\Models\Advertisment;
 use App\Models\category;
 use App\Models\User;
 use App\Models\Favoriets;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class AdvertismentController extends Controller
@@ -15,7 +16,7 @@ class AdvertismentController extends Controller
 
     public function index()
     {
-        $data['advertisment']=Advertisment::get();
+        $data['advertisment']=Advertisment::where('user_id', auth()->id())->get();
         $data['categories']=category::get();
         return view('dashboard.user.advertisment.index')->with($data);
 
@@ -35,18 +36,23 @@ public function create()
  $request->validate([
      'title'=>'required|string|max:10',
      'desc'=>'required|string|max:50',
-     'img'=>'required',
+     'img'=>'required|image|mimes:jpg,png',
      'price'=>'required|numeric',
      'condition'=>'required|string',
      'category_id'=>'required',
  ]);
+ //move
+//  $img=$request->file('img');
+//  $ext=$img->getClientOriginalExtension();
+//  $name="advertisment-".uniqid().".$ext";
+//  $img->move(public_path('uploades/advertisments'),$name);
  Advertisment::create([
     'user_id' => Auth()->id(),
     'title'=>$request->title,
     'desc'=>$request->desc,
     'price'=>$request->price,
     'condition'=>$request->condition,
-     'img'=>$request->img,
+     'img'=>$request->$img,
      'category_id'=>$request->category_id,
  ]);
  return view('dashboard.user.home');
@@ -82,7 +88,10 @@ public function update ( Request $request,$id)
 }
 public function delete($id)
 {
-    Advertisment::findOrfail($id)->delete();
+    $advertisment=Advertisment::findOrfail($id);
+    // unlink(public_path('uploades/books/').$books->img);
+    unlink(public_path('uploades/advertisments').$advertisment->img);
+    $advertisment->delete();
     return back();
 }
 public function addtowishlist(Request $request)
@@ -149,10 +158,14 @@ public function favoriets()
 }
 public function show ($id)
 {
+    $rating=Rating::where('advertisment_id',$id)->avg('rating');
+   
     $Advertisment=Advertisment::findOrfail($id);
    
-   return view ('dashboard.user.advertisment.show',compact('Advertisment'));
+   return view ('dashboard.user.advertisment.show',compact('Advertisment','rating'));
 }
+
+
 
 
 }

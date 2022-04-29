@@ -1,12 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\User;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-
-
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +20,7 @@ class UserController extends Controller
         'email'=>'required|email|unique:users,email',
         'password'=>'required|min:5|max:30',
         'phone'=>'required',
-        'img'=>'image|mimes:jpg,png',
+        'img'=>'image|mimes:jpg,png,jpeg',
         'city'=>'required',
         ]);
         
@@ -76,6 +73,7 @@ class UserController extends Controller
     
 
     }
+    
     
     public function logout(){
         Auth::guard('web')->logout();
