@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Favoriets;
 use App\Models\Rating;
 use Illuminate\Http\Request;
+use Image;
 
 class AdvertismentController extends Controller
 {
@@ -36,7 +37,7 @@ public function create()
  $request->validate([
      'title'=>'required|string|max:10',
      'desc'=>'required|string|max:50',
-     'img'=>'required|image|mimes:jpg,png',
+     'img'=>'required|image|mimes:jpg,png,jpeg',
      'price'=>'required|numeric',
      'condition'=>'required|string',
      'category_id'=>'required',
@@ -46,13 +47,16 @@ public function create()
 //  $ext=$img->getClientOriginalExtension();
 //  $name="advertisment-".uniqid().".$ext";
 //  $img->move(public_path('uploades/advertisments'),$name);
+$new_name=$request->img->hashName();
+Image::make($request->img)->resize(50,50)->save(public_path('Uploads/advertisments/'.$new_name));
+
  Advertisment::create([
     'user_id' => Auth()->id(),
     'title'=>$request->title,
     'desc'=>$request->desc,
     'price'=>$request->price,
     'condition'=>$request->condition,
-     'img'=>$request->$img,
+     'img'=>$new_name,
      'category_id'=>$request->category_id,
  ]);
  return view('dashboard.user.home');

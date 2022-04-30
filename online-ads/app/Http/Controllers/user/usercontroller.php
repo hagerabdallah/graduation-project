@@ -4,13 +4,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-<<<<<<< HEAD
-use App\Rules\MatchOldPassword;
-
-=======
->>>>>>> 12388c604f7c9b553834555af2465d2c86a21137
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\MatchOldPassword;
 
 
 
