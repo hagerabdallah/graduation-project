@@ -31,6 +31,10 @@ class Auction extends Model
             return $this->hasMany(Price::class);
         
     }
+    public function images(){
+        return $this->hasMany(auctiontable::class);
+    }
+   
 }
 
 

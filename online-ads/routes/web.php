@@ -76,7 +76,10 @@ Route::prefix('user')->name('user.')->group(function () {
        Route::post('/auction/join',[AuctionController::class,'join'])->name('auction.join');
        Route::get('/auction/bidders/{id}',[AuctionController::class,'bidders_info'])->name('auction.bidders_info');
        Route::get('/auction/biddersjoin',[AuctionController::class,'bidders_jion'])->name('auction.bidders_jion'); //الاوكشن اللي الشخص اشترك فيه
-
+       Route::get('/auction/show/{id}',[AuctionController::class,'images'])->name('auction.images');
+       Route::post('/auction/deleteimage/{id}',[AuctionController::class,'deleteimage'])->name('auction.deleteimage');
+           
+      
       //end Auction CRUD
       //profile
      // Route::get('/profile',[UserController::class,'profile'])->name('profile');

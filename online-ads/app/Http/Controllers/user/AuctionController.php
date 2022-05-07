@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\user;
   use App\Models\Auction;
 use App\Http\Controllers\Controller;
+use App\Models\auctiontable;
 use App\Models\Price;
-use App\Models\User;
+USE Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Else_;
- use Illuminate\Support\Collection;
+use Intervention\Image\Facades\Image;
 class AuctionController extends Controller
 {
 
 public function index(){
-    $auction=Auction::where('user_id', auth()->id())->where('is_accepted','1')->get();
+    $auction=Auction::where('user_id', auth()->id())->where('is_accepted','0')->get();
     return view('dashboard.user.auction.index',compact('auction'));
 }
 
@@ -28,11 +28,15 @@ public function index(){
    'desc'=>'required|string|max:100',
    'start_date'=>'required|date',
    'end_date'=>'required|date',
-   'img'=>'required',
+   'img'=>'required|image|mimes:jpg,png,jpeg',
    'min_price'=>'required|numeric',
    'condition'=>'required'
 ]);
-   Auction::create([
+
+$newname=$request->img->hashName();
+Image::make($request->img)->resize(50,50)->save(public_path('Uploads/auctions/'.$newname));
+$request->img=$newname;
+   $newauction=Auction::create([
        'user_id'=>Auth()->id(),
        'name'=>$request->name,
        'desc'=>$request->desc,
@@ -43,14 +47,28 @@ public function index(){
        'condition'=>$request->condition       
 
    ]);
+
+   if($request->has('imgs')){
+    foreach($request->file('imgs')as $image){
+
+  $imagename ='auction.'.uniqid() .'.'.$image->getClientOriginalExtension();
+  $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/auctions/'.$imagename));
+        auctiontable::create([
+            'auction_id'=>$newauction->id,
+            'image'=>$imagename
+        ]);
+    }
+}
+
    return view('dashboard.user.home');
 }
 
 public function edit($id){
   $auction= Auction::findOrfail($id);
-   return view('dashboard.user.auction.edit',compact('auction'));
-}
+  $images=auctiontable::where('auction_id',$id)->get();
 
+   return view('dashboard.user.auction.edit',compact('auction','images'));
+}
 public function update(Request $request,$id){
 
     $request->validate([
@@ -58,12 +76,20 @@ public function update(Request $request,$id){
         'desc'=>'required|string|max:100',
         'start_date'=>'required|date',
         'end_date'=>'required|date',
-        'img'=>'required',
+        'img'=>'nullable|image|mimes:jpg,png,jpeg',
         'min_price'=>'required|numeric',
         'condition'=>'required'
      ]);
-
-     Auction::findOrfail($id)->update([
+     $old_name=Auction::findOrfail($request->id)->img;
+     if($request->hasFile('img')){
+        Storage::disk('Uploads')->delete('Auctions/'.$old_name);
+        $new_name=$request->img->hashName();
+        Image::make($request->img)->resize(50,50)->save(public_path('Uploads/Auctions/'.$new_name));
+        $request->img=$new_name;
+   }else{
+       $request->img= $old_name;
+   }
+   $newauction=  Auction::findOrfail($id)->update([
         'user_id'=>Auth()->id(),
         'name'=>$request->name,
         'desc'=>$request->desc,
@@ -74,14 +100,62 @@ public function update(Request $request,$id){
         'condition'=>$request->condition 
 
      ]);
+     if($request->has('imgs')){
+        foreach($request->file('imgs')as $image){
+    
+      $imagename ='auction.'.uniqid() .'.'.$image->getClientOriginalExtension();
+      $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/auctions/'.$imagename));
+            auctiontable::create([
+                'auction_id'=>$request->id,
+                'image'=>$imagename
+            ]);
+        }
+    }
+    
+    return back();
+    
+    }
 
-   return view('dashboard.user.home');
+
+
+
+
+
+public function deleteimage($id){
+    $old_name=auctiontable::findOrfail($id)->image;
+    unlink(public_path('Uploads/Auctions/').$old_name);
+    auctiontable::findOrfail($id)->delete();
+ return back();
 
 }
 
+
+
+        
+    
+
+
+
+
+
+////****DELETE */
 public function delete($id){
-    Auction::findOrfail($id)->delete();
+    $old_name=Auction::findOrfail($id)->img;
+    Storage::disk('Uploads')->delete('Auctions/'.$old_name);
+
+    $old_names =auctiontable::where('auction_id',$id)->get();
+    foreach ($old_names as $oldd) {
+        unlink(public_path('Uploads/Auctions/').$oldd->image);
+        auctiontable::where('auction_id',$id)->delete();
+    }
+ 
+
+   
+   Auction::findOrfail($id)->delete();
+
 }
+
+//***show */
 public function show ($id)
 {
     $auction=Auction::findOrfail($id);
@@ -159,6 +233,15 @@ public function join (Request $request)
               $joinners=Price::where('user_id',auth()->id())->get();
               return view('dashboard.user.auction.bidders_join',compact('joinners'));
            }
+
+
+           public function images($id){
+            $advertisment = Auction::find($id);
+          
+            $images=auctiontable::where('auction_id',$id)->get();
+           
+           return view('dashboard.user.auction.show',compact('images','advertisment'));
+       }
        
 
 }
