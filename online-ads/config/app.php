@@ -177,7 +177,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
+<<<<<<< HEAD
 
+=======
+>>>>>>> aaa7a97f62e57e9882b1bed8b541c4a42dd62f0d
 
     ],
 
@@ -234,7 +237,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class
+<<<<<<< HEAD
 
+=======
+>>>>>>> aaa7a97f62e57e9882b1bed8b541c4a42dd62f0d
 
     ],
 
