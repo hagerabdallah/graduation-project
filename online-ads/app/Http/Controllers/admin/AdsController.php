@@ -8,6 +8,7 @@ use App\Models\category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
+use Image;
 
 class AdsController extends Controller
 {
@@ -40,7 +41,7 @@ class AdsController extends Controller
         $request->validate([
             'title'=>'required|string|max:10',
             'desc'=>'required|string|max:50',
-            'img'=>'required',
+            'img'=>'required|image|mimes:jpg,png,jpeg',
             'price'=>'required|numeric',
             'condition'=>'required|string',
             'category_id'=>'required',
@@ -48,12 +49,15 @@ class AdsController extends Controller
 
 
         ]);
+        $new_name=$request->img->hashName();
+        Image::make($request->img)->resize(50,50)->save(public_path('Uploads/advertisments/'.$new_name));
+
         Advertisment::create([
            'title'=>$request->title,
            'desc'=>$request->desc,
            'price'=>$request->price,
            'condition'=>$request->condition,
-            'img'=>$request->img,
+            'img'=>$new_name,
             'category_id'=>$request->category_id,
             'user_id'=>$request->user_id,
 

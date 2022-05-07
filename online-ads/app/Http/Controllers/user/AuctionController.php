@@ -7,12 +7,13 @@ use App\Models\Price;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Else_;
- use Illuminate\Support\Collection;
+use Illuminate\Support\Collection;
+use Image;
 class AuctionController extends Controller
 {
 
 public function index(){
-    $auction=Auction::where('user_id', auth()->id())->where('is_accepted','1')->get();
+    $auction=Auction::where('user_id', auth()->id())->where('is_accepted','0')->get();
     return view('dashboard.user.auction.index',compact('auction'));
 }
 
@@ -28,17 +29,20 @@ public function index(){
    'desc'=>'required|string|max:100',
    'start_date'=>'required|date',
    'end_date'=>'required|date',
-   'img'=>'required',
+   'img'=>'required|image|mimes:jpg,png,jpeg',
    'min_price'=>'required|numeric',
    'condition'=>'required'
 ]);
+$new_name=$request->img->hashName();
+Image::make($request->img)->resize(50,50)->save(public_path('Uploads/auctions/'.$new_name));
+
    Auction::create([
        'user_id'=>Auth()->id(),
        'name'=>$request->name,
        'desc'=>$request->desc,
        'start_date'=>$request->start_date,
        'end_date'=>$request->end_date,
-       'img'=>$request->img,
+       'img'=>$new_name,
        'min_price'=>$request->min_price,
        'condition'=>$request->condition       
 

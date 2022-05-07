@@ -34,5 +34,17 @@
       <input type="file" class="form-control-file" name="img" >
     </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+ 
+
+<div class="form-group">
+                <label for="files" class="form-label mt-4">Upload Product Images:</label>
+                <input 
+                    type="file" 
+                    name="images[]"
+                    class="form-control" 
+                    accept="image/*"
+                    multiple
+                >
+</div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>

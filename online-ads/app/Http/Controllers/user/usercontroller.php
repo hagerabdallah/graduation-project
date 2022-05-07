@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\MatchOldPassword;
+use Image;
 
 
 
@@ -24,14 +25,16 @@ class UserController extends Controller
         'img'=>'image|mimes:jpg,png,jpeg',
         'city'=>'required',
         ]);
-        
+        $new_name=$request->img->hashName();
+        Image::make($request->img)->resize(50,50)->save(public_path('Uploads/advertisments/'.$new_name));
+
         
         $user=User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password'=> Hash::make($request->password),
-            'img'=>$request->img,
+            'img'=>$new_name,
             'phone'=>$request->phone,
             'city'=>$request->city,
            

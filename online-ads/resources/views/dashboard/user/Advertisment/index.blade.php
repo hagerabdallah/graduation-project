@@ -4,6 +4,7 @@
 <h1>{{$ad->price}}</h1>
 <h1>{{$ad->condition}}<h1>
 <h1>{{$ad->category->name ?? 'none' }}<h1>
+<img scr="{{asset('Uploads/advertisments/'.$ad->img)}}"   alt="" width="500" height="600" >
 <a class="btn btn-primary" href="{{route('user.advertisment.delete', $ad->id )}}">delete</a>   
 
 {{-- <a class="btn btn-primary" href="{{route('user.advertisment.addtowishlist', $ad->id )}}">add to wishlist</a>    --}}
@@ -13,5 +14,6 @@
      
       <button  class="btn btn-primary">addtowishlist</button>
     </form>
+    
 @endforeach
  

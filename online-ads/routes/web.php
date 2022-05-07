@@ -62,6 +62,8 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::post('/advertisment/wishlist',[AdvertismentController::class,'addtowishlist'])->name('advertisment.addtowishlist');
       Route::get('/advertisment/show/{id}',[AdvertismentController::class,'show'])->name('advertisment.show');
       Route::get('/advertisment/favoriets',[AdvertismentController::class,'favoriets'])->name('advertisment.favoriets');
+      Route::get('/advertisment/show/{id}',[AdvertismentController::class,'images'])->name('advertisment.images');
+     
       
       //end advertisment CRUD
       

@@ -28,6 +28,9 @@ class Advertisment extends Model
     {
     return $this->hasMany(Rating::class);
     }
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
 
 
 }

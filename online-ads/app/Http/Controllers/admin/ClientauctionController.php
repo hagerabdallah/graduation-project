@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Auction;
+use Image;
 
 class ClientauctionController extends Controller
 {
@@ -39,18 +40,21 @@ class ClientauctionController extends Controller
             'desc'=>'required|string|max:100',
             'start_date'=>'required|date',
             'end_date'=>'required|date',
-            'img'=>'required',
+            'img'=>'required|image|mimes:jpg,png,jpeg',
             'min_price'=>'required|numeric',
             'condition'=>'required',
             'user_id'=>'required',
          ]);
+         $new_name=$request->img->hashName();
+         Image::make($request->img)->resize(50,50)->save(public_path('Uploads/auctions/'.$new_name));
+
             Auction::create([
                 'user_id' => $request->user_id,
                 'name'=>$request->name,
                 'desc'=>$request->desc,
                 'start_date'=>$request->start_date,
                 'end_date'=>$request->end_date,
-                'img'=>$request->img,
+                'img'=>$new_name,
                 'min_price'=>$request->min_price,
                 'condition'=>$request->condition       
          
