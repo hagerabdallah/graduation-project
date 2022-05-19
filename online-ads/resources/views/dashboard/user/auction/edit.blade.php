@@ -26,11 +26,46 @@
    
         <textarea class="form-control"  rows="3" placeholder="end_date" name="end_date">{{old('end_date')??$auction->end_date}}</textarea>
       </div>
-
+    
     <div class="form-group">
         <label for="exampleFormControlFile1">Example file input</label>
         <input type="file" class="form-control-file" name="img" >
       </div>
-  
+
+      
+     
+    
+     
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input type="file" class="form-control-file" name="imgs[]"  multiple >
+      </div>
+
+      
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+
+
+  <div >
+    {{-- show images --}}
+      @foreach ($images as $image)
+      <form action="{{route('user.auction.deleteimage',$image->id)}}" method="post">
+       <button class="btn text-danger">X</button>
+       @csrf
+       </form>
+<img src="{{asset("Uploads/Auctions/$image->image")}}" alt="">
+
+
+  <h1>{{$image->image}}</h1>
+  @endforeach
+    {{--  end show images --}}
+  </div>
+
+  
+
+                    
+
+
+                    
+
+                     

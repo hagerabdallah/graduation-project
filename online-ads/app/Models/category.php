@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class category extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','desc'];
+    protected $fillable = ['name','desc','is_accepted','is_active'];
     
     public function advertisments()
     {

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Rules\MatchOldPassword;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Rules\MatchOldPassword;
+
 use Image;
 
 
@@ -65,14 +67,14 @@ class UserController extends Controller
     
             ]);
     
-            $is_login=$request->only('email','password');
-            if(auth::attempt($is_login) )
+            // $is_login=$request->only('email','password');
+            if(auth::attempt(['email' => $request->email,'password' => $request->password]) )
             {
                 return redirect()->route('user.home');
             }
             else
             {
-                return redirect()->route('user.login');
+                return back()->with('fail','Something went wrong, failed to update');
             }
     
 

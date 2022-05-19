@@ -1,3 +1,4 @@
+
 <form method="POST" action="{{route('user.advertisment.store')}}" enctype="multipart/form-data"   >
   @csrf
   <div class="form-group">
@@ -48,3 +49,5 @@
 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                
+             

@@ -43,6 +43,7 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::view('/register', 'dashboard.user.register')->name('register');
       Route::post('/create', [UserController::class,'create'])->name('create');
       Route::post('/check', [UserController::class,'check'])->name('check');
+      Route::view('/layout', 'dashboard.admin.layout');
     //end guest user
       
       
@@ -63,7 +64,8 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::get('/advertisment/show/{id}',[AdvertismentController::class,'show'])->name('advertisment.show');
       Route::get('/advertisment/favoriets',[AdvertismentController::class,'favoriets'])->name('advertisment.favoriets');
       Route::get('/advertisment/show/{id}',[AdvertismentController::class,'images'])->name('advertisment.images');
-     
+      Route::get('/advertisment/deleteimage/{id}',[AdvertismentController::class,'deleteimage'])->name('adv.delete.imgs');
+    
       
       //end advertisment CRUD
       
@@ -78,7 +80,10 @@ Route::prefix('user')->name('user.')->group(function () {
        Route::post('/auction/join',[AuctionController::class,'join'])->name('auction.join');
        Route::get('/auction/bidders/{id}',[AuctionController::class,'bidders_info'])->name('auction.bidders_info');
        Route::get('/auction/biddersjoin',[AuctionController::class,'bidders_jion'])->name('auction.bidders_jion'); //الاوكشن اللي الشخص اشترك فيه
-
+       Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
+       Route::post('/auction/deleteimage/{id}',[AuctionController::class,'deleteimage'])->name('auction.deleteimage');
+           
+      
       //end Auction CRUD
       //profile
      // Route::get('/profile',[UserController::class,'profile'])->name('profile');
@@ -106,6 +111,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
      Route::get('auction/edit/{id}',[ClientauctionController::class,'edit'])->name('auction.edit');
      Route::post('auction/update/{id}',[ClientauctionController::class,'update'])->name('auction.update');
      Route::get('auction/delete/{id}',[ClientauctionController::class,'delete'])->name('auction.delete');
+     Route::get('/auction/bidders/{id}',[ClientauctionController::class,'bidders_info'])->name('auction.bidders_info');
+     Route::get('/auction/search',[ClientauctionController::class,'search'])->name('auction.search');
 
 
       
@@ -117,6 +124,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
       Route::get('/categories/delete/{id}',[CategoriesController::class,'delete'])->name('categories.delete');
       Route::get('/categories/edit/{id}',[CategoriesController::class,'edit'])->name('categories.edit');
       Route::post('/categories/update/{id}',[CategoriesController::class,'update'])->name('categories.update');
+      Route::get('/categories/search',[CategoriesController::class,'search'])->name('categories.search');
       //user ads
       Route::get('/advertisment/index',[AdsController::class,'index'])->name('ads.index');
       Route::post('/advertisment/accept/{id}',[AdsController::class,'accept'])->name('ads.accept');
@@ -126,6 +134,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
       Route::get('/advertisment/edit/{id}',[AdsController::class,'edit'])->name('ads.edit');
       Route::post('/advertisment/update/{id}',[AdsController::class,'update'])->name('ads.update');
       Route::get('/advertisment/delete/{id}',[AdsController::class,'delete'])->name('ads.delete');
+      Route::get('/advertisment/search',[AdsController::class,'search'])->name('ads.search');
+
+      //clients
+      Route::get('/users/index',[ClientsController::class,'index'])->name('user.index');
+      Route::get('/users/create',[ClientsController::class,'create'])->name('user.create');
+      Route::post('/users/check',[ClientsController::class,'check'])->name('user.check');
+      Route::get('/users/delete/{id}',[ClientsController::class,'delete'])->name('user.delete');
+      Route::get('/users/search',[ClientsController::class,'search'])->name('user.search');
 
 
   });

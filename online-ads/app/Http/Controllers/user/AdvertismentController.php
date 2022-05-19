@@ -10,7 +10,15 @@ use App\Models\Favoriets;
 use App\Models\Rating;
 use App\Models\Imege;
 use Illuminate\Http\Request;
+USE Illuminate\Support\Facades\Storage;
+use Stevebauman\Location\Facades\Location;
 use Image;
+
+// use Location;
+
+
+
+
 
 class AdvertismentController extends Controller
 {
@@ -80,12 +88,14 @@ public function edit($id)
     $data['categories']= category::select('id','name')->get();
     $data['user']=Auth()->id();
     $data['advertisment']=Advertisment::findOrfail($id);
+    $data['images']=Imege::where('advertisment_id',$id)->get();
     return view ('dashboard.user.advertisment.edit',with($data));
 }
 
 ###################update function#############
 public function update ( Request $request,$id)
 {
+    // validation
     $request->validate([
         'title'=>'required|string|max:10',
         'desc'=>'required|string|max:50',
@@ -94,23 +104,60 @@ public function update ( Request $request,$id)
         'condition'=>'required|string',
         'category_id'=>'required',
     ]);
+    // changecoverphoto
+    $old_name=Advertisment::findOrfail($request->id)->img;
+    if($request->hasFile('img')){
+       Storage::disk('Uploads')->delete('Advertisments/'.$old_name);
+       $new_name=$request->img->hashName();
+       Image::make($request->img)->resize(50,50)->save(public_path('Uploads/Advertisments/'.$new_name));
+       $request->img=$new_name;
+  }else{
+     
+    $request->img= $old_name;
+  }
+     //   update
     Advertisment::findOrfail($id)->update([ 
-    // 'user_id' => Auth()->id(),
     'title'=>$request->title,
     'desc'=>$request->desc,
     'price'=>$request->price,
     'condition'=>$request->condition,
-     'img'=>$request->img,
-     'category_id'=>$request->category_id,]);
+    'img'=>$request->img,
+    'category_id'=>$request->category_id,]);
+    //  add sub pictures
+     if($request->has('imgs')){
+    foreach($request->file('imgs')as $image){
+     $imagename ='advertisment.'.uniqid() .'.'.$image->getClientOriginalExtension();
+      $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/Advertisments/'.$imagename));
+            Imege::create([
+                'adverttisment_id'=>$request->id,
+                'image'=>$imagename
+            ]);
+        }
+    }
+    
      return view('dashboard.user.home');
+}
+##############delete sub pictures#########
+public function deleteimage($id){
+    $old_name=Imege::findOrfail($id)->image;
+    unlink(public_path('Uploads/Advertisments/').$old_name);
+    Imege::findOrfail($id)->delete();
+      return back();
+
 }
 #################delete function##################
 public function delete($id)
 {
-    $advertisment=Advertisment::findOrfail($id);
-    // unlink(public_path('uploades/books/').$books->img);
-    unlink(public_path('uploades/advertisments').$advertisment->img);
-    $advertisment->delete();
+    $old_name=Advertisment::findOrfail($id)->img;
+  
+    unlink(public_path('Uploads/Advertisments/').$old_name);
+
+    $old_names =Imege::where('advertisment_id',$id)->get();
+    foreach ($old_names as $oldd) {
+        unlink(public_path('Uploads/Advertisments/').$oldd->image);
+        Imege::where('advertisment_id',$id)->delete();}
+        Advertisment::findOrfail($id)->delete();
+  
     return back();
 }
 ###################add to wishlist function##########
@@ -159,20 +206,13 @@ public function show ($id)
     $rating=Rating::where('advertisment_id',$id)->avg('rating');
    
     $Advertisment=Advertisment::findOrfail($id);
+    
     $images=Imege::select('image');
+   ;     
    
-   return view ('dashboard.user.advertisment.show',compact('Advertisment','rating','images'));
+   return view ('dashboard.user.advertisment.show',compact('Advertisment','rating','images','data'));
 }
-public function showad($id)
-{
-    $data['categories']= category::select('id','name')->get();
-    $data['user']=Auth()->id();
-    $data['advertisment']=Advertisment::findOrfail($id);
-    $data['images']=Imege::select('image');
-    return view ('dashboard.user.advertisment.showad',with($data));
 
-
-}
 public function images($id){
      $advertisment = Advertisment::find($id);
    

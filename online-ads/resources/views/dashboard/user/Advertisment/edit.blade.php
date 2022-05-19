@@ -34,6 +34,33 @@
         <input type="file" class="form-control-file" name="img" >
       </div>
   
+    
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input type="file" class="form-control-file" name="imgs[]"  multiple >
+      </div>
+
+
+      @foreach ($images as $image)
+      <div >
+      
+      <a href="{{route('user.adv.delete.imgs' , $image->id)}}">X</a>
+      <br>
+       <img src="{{asset("Uploads/Advertisments/$image->image")}}" alt="">
+       <h1>{{$image->image}}</h1>
+        </div>
+       @endforeach
+      
+      
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+ 
+
+
+ 
+    
+    
+
+ 
+
   

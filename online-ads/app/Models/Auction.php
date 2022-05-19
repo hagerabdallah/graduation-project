@@ -19,6 +19,7 @@ class Auction extends Model
         'min_price',
         'condition',
         'is_accepted',
+        'is_active',
         
     ];
 
@@ -31,6 +32,10 @@ class Auction extends Model
             return $this->hasMany(Price::class);
         
     }
+    public function images(){
+        return $this->hasMany(auctiontable::class);
+    }
+   
 }
 
 

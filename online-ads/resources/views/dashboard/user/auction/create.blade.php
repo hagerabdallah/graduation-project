@@ -27,10 +27,15 @@
         <textarea class="form-control"  rows="3" placeholder="end_date" name="end_date">{{old('end_date')}}</textarea>
       </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label for="exampleFormControlFile1">Example file input</label>
-        <input type="file" class="form-control-file" name="img" >
+        <input type="file" class="form-control-file" name="img"  >
       </div>
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input type="file" class="form-control-file" name="imgs[]"  multiple >
+      </div>
+  
   
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
