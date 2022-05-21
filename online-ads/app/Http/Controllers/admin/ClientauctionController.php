@@ -91,6 +91,7 @@ class ClientauctionController extends Controller
     {
         $data['users']= User::select('id','email')->get();
         $data['auction']= Auction::findOrfail($id);
+        
         return view('dashboard.admin.auctions.edit')->with($data);
     }
     public function update(Request $request,$id)
@@ -122,14 +123,22 @@ class ClientauctionController extends Controller
     }
     public function delete($id)
     {
-        $old_name=Auction::findOrfail($id)->img;
-  
-    unlink(public_path('Uploads/Auctions/').$old_name);
+    // delete price table
+     $prices=price::where('auction_id',$id)->get();
+    foreach($prices as $price)
+    {
+        price::where('auction_id',$id)->delete();
 
+    }
+    
+//delete subimage
     $old_names =auctiontable::where('auction_id',$id)->get();
     foreach ($old_names as $oldd) {
         unlink(public_path('Uploads/Auctions/').$oldd->image);
         auctiontable::where('auction_id',$id)->delete();}
+    //delete auction and cover image
+        $old_name=Auction::findOrfail($id)->img;
+       unlink(public_path('Uploads/Auctions/').$old_name);
         Auction::findOrfail($id)->delete();
         return back();
     }

@@ -28,6 +28,8 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('admin/build/css')}}/custom.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
   </head>
   <body class="nav-md">
     <div class="container body">
@@ -80,6 +82,10 @@
 
 <!-- Custom Theme Scripts -->
 <script src="{{asset('admin/build/js')}}/custom.min.js"></script>
+
+   
+ 
+ 
 @yield('scripts')
 
 </body>

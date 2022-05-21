@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 use App\Models\Advertisment;
 use App\Models\category;
 use App\Models\User;
@@ -15,7 +16,9 @@ class AdsController extends Controller
 {
     public function index(){
         $data['ads']=Advertisment::get();
-
+        
+        $data['user']=User::get();
+        $data['categories']=Category::get();
         return view('dashboard.admin.ads.index')->with($data);
     }
 
@@ -97,38 +100,138 @@ class AdsController extends Controller
 
 public function edit($id){
  
-    $data['advertisment']=Advertisment::findOrfail($id);
-    $data['categories']=category::select('id','name')->get();
-    $data['users']=User::select('id','email')->get();
-    return view ('dashboard.admin.ads.edit')->with($data);
+    $advertisment=Advertisment::findOrfail($id);
+    $categories=category::get();
+    $user=User::where('id',$advertisment->user_id)->get();
+    if( $advertisment)
+{
+    return Response::json(array(
+        'status'=>200,
+        'advertisment'=>$advertisment,
+        'user'=>$user,
+    ));
+
+
+
+   
+}
+
+else
+{
+    return response()->json( [
+        
+        'status'=>404,
+        'advertisment'=>'not found',
+      
+    
+    ]);
+}
+if( $user){
+return response()->json( [
+        
+    'status'=>200,
+    'users'=>$user,
+    
+]);}
+else
+{
+    return response()->json( [
+        
+        'status'=>404,
+        'users'=>'not found',
+      
+    
+    ]);
+}
+    
+    // return view ('dashboard.admin.ads.index')->with($data);
 
 }
 //store function
 
-public function update(Request $request,$id){
-    $request->validate([
+public function update(Request $request){
+
+    $validator=$request->Validator::make($request->all(),[
         'title'=>'required|string|max:10',
         'desc'=>'required|string|max:50',
-        'img'=>'required',
+        'img'=>'nullable|image|mimes:jpg,png,jpeg',
         'price'=>'required|numeric',
         'condition'=>'required|string',
         'category_id'=>'required',
         'user_id'=>'required',
-
-
-    ]);
-    Advertisment::findOrfail($id)->update([ 
-    // 'user_id' => Auth()->id(),
-    'title'=>$request->title,
-    'desc'=>$request->desc,
-    'price'=>$request->price,
-    'condition'=>$request->condition,
-     'img'=>$request->img,
-     'category_id'=>$request->category_id,
-     'user_id'=>$request->user_id,
+        'imgs'=>'nullable|image|mimes:jpg,png,jpeg',
 
     ]);
-     return view('dashboard.admin.home');
+    if($validator->fails())
+    {
+        return response()->json( [
+        
+            'status'=>400,
+            'errors'=>$validator->messages()
+            
+        ]); 
+    }
+   else{
+
+    $ad=Advertisment::findOrfail($id);
+    if($ad){
+    $ad->update([ 
+       // 'user_id' => Auth()->id(),
+       'title'=>$request->title,
+       'desc'=>$request->desc,
+       'price'=>$request->price,
+       'condition'=>$request->condition,
+       'img'=>$request->img,
+        'category_id'=>$request->category_id,
+        'user_id'=>$request->user_id,
+
+    ]);
+    
+    // cover
+    $old_name=Advertisment::findOrfail($request->id)->img;
+    if($request->hasFile('img')){
+     Storage::disk('Uploads')->delete('Advertisments/'.$old_name);
+     $new_name=$request->img->hashName();
+     Image::make($request->img)->resize(50,50)->save(public_path('Uploads/Advertisments/'.$new_name));
+     $request->img=$new_name;
+    }
+    else{
+   
+    $request->img= $old_name;
+   }
+//    end cover
+
+    if($request->has('imgs')){
+        foreach($request->file('imgs')as $image){
+         $imagename ='advertisment.'.uniqid() .'.'.$image->getClientOriginalExtension();
+          $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/Advertisments/'.$imagename));
+                Imege::create([
+                    'adverttisment_id'=>$request->id,
+                    'image'=>$imagename
+                ]);
+            }
+        }
+
+    return response()->json( [
+        
+        'status'=>200,
+        'message'=>'success',
+        
+    ]); 
+}
+ else
+ {
+    return response()->json( [
+        
+        'status'=>404,
+        'message'=>'fail',
+        
+    ]); 
+     
+ }}
+      
+
+     
 
 }
 public function delete($id){

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\categories;
 use App\Models\category;
+use App\Models\Advertisment;
+use App\Models\imege;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -75,8 +77,28 @@ class CategoriesController extends Controller
     }
     public function delete ($id)
     {
+        
+        $ads=Advertisment::where('category_id',$id)->get();
+        foreach ($ads as $ad) {
+           
+           
+            // cover
+            unlink(public_path('Uploads/Advertisments/').$ad->img);
+            
+            // sub
+            $old_names =Imege::where('advertisment_id',  $ad->id)->get();
+            foreach ($old_names as $oldd) {
+                unlink(public_path('Uploads/Advertisments/').$oldd->image);
+                Imege::where('advertisment_id', $ad->id)->delete();
+            }
+            Advertisment::where('id',$ad->id)->delete();
+                
+            }
+          
         $categories=category::findOrfail($id);
         $categories->delete();
+      
+        
         return back();
     }
     public function search( Request $request)

@@ -5,6 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\advertisment;
+use App\Models\auction;
+use App\Models\imege;
+use App\Models\auctiontable;
+use App\Models\price;
 
 
 use Illuminate\Support\Facades\Hash;
@@ -66,6 +71,50 @@ class ClientsController extends Controller
             }
             public function delete($id)
             {
+              //delete advertisment
+              $ads=Advertisment::where('user_id',$id)->get();
+              foreach ($ads as $ad) {
+                
+                  
+                  // sub
+                  $old_names =Imege::where('advertisment_id',  $ad->id)->get();
+                  foreach ($old_names as $oldd) {
+                      unlink(public_path('Uploads/Advertisments/').$oldd->image);
+                      Imege::where('advertisment_id', $ad->id)->delete();
+                  }
+                   // cover
+                   unlink(public_path('Uploads/Advertisments/').$ad->img);
+                  Advertisment::where('id',$ad->id)->delete();
+                      
+                  }
+                  //end delete advertisment
+                  // delete auction
+                  $auctions=Auction::where('user_id',$id)->get();
+                  foreach ($auctions as $auction) {
+                     
+                  // delet price
+                  $prices=price::where('auction_id',$auction->id)->get();
+                   foreach($prices as $price)
+                     {
+                       price::where('auction_id',$auction->id)->delete();
+
+                        }
+                     
+                     
+                      
+                      // sub
+                      $old_names =auctiontable::where('auction_id',  $auction->id)->get();
+                      foreach ($old_names as $oldd) {
+                          unlink(public_path('Uploads/auctions/').$oldd->image);
+                          auctiontable::where('auction_id',  $auction->id)->delete();
+                      }
+                       // cover
+                       unlink(public_path('Uploads/auctions/').$auction->img);
+                     auction::where('id', $auction->id)->delete();
+                          
+                      }
+                  // user
+        
               $old_name=User::findOrfail($id)->img;
   
               unlink(public_path('Uploads/users/').$old_name);
