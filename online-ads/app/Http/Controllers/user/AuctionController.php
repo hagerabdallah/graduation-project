@@ -155,7 +155,7 @@ public function delete($id){
 
 }
 
-//***show */
+//***show  selected auction */
 public function show ($id)
 {
     $auction=Auction::findOrfail($id);

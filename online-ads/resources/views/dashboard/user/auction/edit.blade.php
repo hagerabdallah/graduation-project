@@ -46,7 +46,7 @@
   </form>
 
 
-  <div >
+  <div>
     {{-- show images --}}
       @foreach ($images as $image)
       <form action="{{route('user.auction.deleteimage',$image->id)}}" method="post">
