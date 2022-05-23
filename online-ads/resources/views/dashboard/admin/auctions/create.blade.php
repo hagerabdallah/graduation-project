@@ -137,7 +137,7 @@
                   <label  >Start date
                   </label>
                   
-                    <input type="date" class="form-control "  aria-describedby="inputSuccess2Status" name='start_date' >
+                    <input type="datetime-local" class="form-control "  aria-describedby="inputSuccess2Status" name='start_date' >
                     {{-- <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span> --}}
                     {{-- <span id="inputSuccess2Status" class="sr-only">(success)</span> --}}
                   
@@ -152,7 +152,7 @@
                     <label  >End date
                     </label>
                    
-                      <input type="date" class="form-control"   aria-describedby="inputSuccess2Status" name='end_date'>
+                      <input type="datetime-local"  class="form-control"   aria-describedby="inputSuccess2Status" name='end_date'>
                      
                     
                      

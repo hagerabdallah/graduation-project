@@ -16,8 +16,21 @@
 <h1>{{$last_price}}<h1>
 
 
-
-
+  {{-- <td> 
+    @foreach ($images as $img )
+   <ul class="list-inline ">
+   
+   
+     <li>
+       <img class="avatar" src="{{asset("Uploads/Advertisments/$img->image")}}"  height="20px" alt="">
+     </li>
+   
+    
+   
+   </ul>
+   @endforeach
+ </td>
+ --}}
 
 
 

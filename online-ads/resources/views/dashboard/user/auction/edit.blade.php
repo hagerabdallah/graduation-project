@@ -53,7 +53,7 @@
        <button class="btn text-danger">X</button>
        @csrf
        </form>
-<img src="{{asset("Uploads/Auctions/$image->image")}}" alt="">
+    <img src="{{asset("Uploads/Auctions/$image->image")}}" alt="">
 
 
   <h1>{{$image->image}}</h1>

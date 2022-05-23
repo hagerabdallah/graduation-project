@@ -4,21 +4,26 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Advertisment;
 use App\Models\category;
 use App\Models\User;
 use App\Models\imege;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
+
 use Image;
 
 class AdsController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $data['ads']=Advertisment::get();
         
         $data['user']=User::get();
         $data['categories']=Category::get();
+        
+
         return view('dashboard.admin.ads.index')->with($data);
     }
 
@@ -102,13 +107,16 @@ public function edit($id){
  
     $advertisment=Advertisment::findOrfail($id);
     $categories=category::get();
-    $user=User::where('id',$advertisment->user_id)->get();
-    if( $advertisment)
+    
+    $images=Imege::where('advertisment_id',$id)->get();
+    $users=User::where('id',$advertisment->user_id)->get();
+    if( $advertisment )
 {
     return Response::json(array(
         'status'=>200,
         'advertisment'=>$advertisment,
-        'user'=>$user,
+        'images'=>$images,
+        'users'=>$users,
     ));
 
 
@@ -121,16 +129,17 @@ else
     return response()->json( [
         
         'status'=>404,
+        
         'advertisment'=>'not found',
       
     
     ]);
 }
-if( $user){
+if( $images){
 return response()->json( [
         
     'status'=>200,
-    'users'=>$user,
+    'images'=>$images,
     
 ]);}
 else
@@ -138,28 +147,47 @@ else
     return response()->json( [
         
         'status'=>404,
-        'users'=>'not found',
+        'images'=>'not found',
       
     
     ]);
 }
+if( $user){
+    return response()->json( [
+            
+        'status'=>200,
+        'user'=>$user,
+        
+    ]);}
+    else
+    {
+        return response()->json( [
+            
+            'status'=>404,
+            'user'=>'not found',
+          
+        
+        ]);
+    }
+dd($response);
     
     // return view ('dashboard.admin.ads.index')->with($data);
 
 }
 //store function
 
-public function update(Request $request){
+public function update(Request $request,$id){
 
-    $validator=$request->Validator::make($request->all(),[
+    $validator=Validator::make($request->all(),[
         'title'=>'required|string|max:10',
         'desc'=>'required|string|max:50',
         'img'=>'nullable|image|mimes:jpg,png,jpeg',
+       
         'price'=>'required|numeric',
         'condition'=>'required|string',
         'category_id'=>'required',
         'user_id'=>'required',
-        'imgs'=>'nullable|image|mimes:jpg,png,jpeg',
+       
 
     ]);
     if($validator->fails())
@@ -172,45 +200,55 @@ public function update(Request $request){
         ]); 
     }
    else{
-
-    $ad=Advertisment::findOrfail($id);
-    if($ad){
-    $ad->update([ 
-       // 'user_id' => Auth()->id(),
-       'title'=>$request->title,
-       'desc'=>$request->desc,
-       'price'=>$request->price,
-       'condition'=>$request->condition,
-       'img'=>$request->img,
-        'category_id'=>$request->category_id,
-        'user_id'=>$request->user_id,
-
-    ]);
     
-    // cover
+    $ad=Advertisment::findOrfail($id);
+
+    if($ad){
+
+
+
+        $ad->title = $request->input('title');
+        $ad->desc = $request->input('desc');
+        $ad->price = $request->input('price');
+        $ad->condition = $request->input('condition');
+       
+        $ad->category_id = $request->input('category_id');
+        $ad->user_id = $request->input('user_id');
+     // cover
     $old_name=Advertisment::findOrfail($request->id)->img;
     if($request->hasFile('img')){
-     Storage::disk('Uploads')->delete('Advertisments/'.$old_name);
+    //  Storage::disk('Uploads')->delete('Advertisments/'.$old_name);
+     unlink(public_path('Uploads/Advertisments/').$old_name);
      $new_name=$request->img->hashName();
      Image::make($request->img)->resize(50,50)->save(public_path('Uploads/Advertisments/'.$new_name));
-     $request->img=$new_name;
+     $ad->img=$new_name;
     }
     else{
    
-    $request->img= $old_name;
+    $ad->img= $old_name;
    }
 //    end cover
 
-    if($request->has('imgs')){
+
+
+    $ad->save();
+     //  add sub pictures
+     if($request->has('imgs')){
+         
+         
         foreach($request->file('imgs')as $image){
          $imagename ='advertisment.'.uniqid() .'.'.$image->getClientOriginalExtension();
           $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/Advertisments/'.$imagename));
                 Imege::create([
-                    'adverttisment_id'=>$request->id,
+                    'advertisment_id'=>$request->id,
                     'image'=>$imagename
                 ]);
             }
         }
+        
+    
+  
+
 
     return response()->json( [
         
@@ -234,6 +272,15 @@ public function update(Request $request){
      
 
 }
+// delete sub
+public function deleteimage($id){
+    $old_name=Imege::findOrfail($id)->image;
+    unlink(public_path('Uploads/Advertisments/').$old_name);
+    Imege::findOrfail($id)->delete();
+      return back();
+
+}
+// end
 public function delete($id){
     // Advertisment::findOrfail($id)->delete();
     

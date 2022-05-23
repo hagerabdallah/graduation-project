@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="_token" content="{{ csrf_token() }}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
     <title>Gentelella Alela! | </title>
+    <style>
+     .featured {
+    width: 30px;
+    position: absolute;
+    top: 250px;
+    right: 510px;
+    
+    
+    font-size: 14px;
+    padding: 1px 0 3px 0;
+
+    color: #fff;
+}
+  </style>
 
     <!-- Bootstrap -->
     <link href="{{asset('admin/vendors/bootstrap/dist/css')}}/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +44,8 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('admin/build/css')}}/custom.min.css" rel="stylesheet">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+  
 
   </head>
   <body class="nav-md">

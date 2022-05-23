@@ -47,7 +47,9 @@
                     <th>price</th>
                     <th>img</th>
                     <th>condition</th>
+                   
                     <th>actions</th>
+                    
                     
                   </tr>
                 </thead>
@@ -67,13 +69,24 @@
                     <td> <img src="{{asset("Uploads/Advertisments/$ad->img")}}" alt=""  height="40px" ></td>
                     <td>{{$ad->condition}}</td>
                     <td>
-                   <button type="button"  class="edit_btn btn btn-primary py-3 px-4" value="{{$ad->id}}" ></button>
-                      <a data-toggle="modal " data-target="#exampleModalCenter" class="btn btn-info  fa fa-pencil"> Edit</a>
-                      <a  class="btn btn-danger fa fa-trash-o" href="{{route('admin.ads.delete', $ad->id )}}"> Delete</a></td>
+                         <button type="button"  class="edit_btn btn btn-info  fa fa-pencil" value="{{$ad->id}}" > Edit</button>
+                         
+                         <a  class="btn btn-danger fa fa-trash-o" href="{{route('admin.ads.delete', $ad->id )}}"> Delete</a></td>
+                    
+                   
+              
+                
+
+            
+               
+                   
+               
+               
                  
                 </tr>
+                @endforeach
+              
                   
-                  @endforeach
                  
               
                 </tbody>
@@ -108,11 +121,13 @@
            
             <div class="modal-body ">
               @include('dashboard.admin.inc.errors') 
-          <form id="UpdateModal" method="POST"  enctype="multipart/form-data"  data-parsley-validate class="form-horizontal form-label-left">
-            
+          <form id="UpdateModal" method="POST"    data-parsley-validate class="form-horizontal form-label-left">
+           @csrf
+            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
             <div class="row">
             <div  class=" col-md-6">
-              <input type="hidden" name="id" id="ad_id"  > 
+              
+              <input type="hidden" name="id" id="ad_id"    > 
               <ul class="alert alert-warning d-none" id="updateerrors"> </ul>
               <label  >title</span>
               </label>
@@ -135,11 +150,13 @@
               <label  >user
               </label>
              
-                <select class="form-control" name="user_id" id="user_id" >
+                <select class="form-control" name="user_id"    >
                   
-                    <option selected>Select User</option>
+                  
+                  <option selected class="t_dn"  id="userid"> </option>
                     @foreach ($user as $us)
-                      <option value="{{$us->id}}">{{$us->email}}</option> 
+                    
+                      <option  value="{{$us->id}}">{{$us->email}}</option> 
                       @endforeach
                   
                 </select>
@@ -147,15 +164,16 @@
              
                 
               </div>
+              
               <div  class=" col-md-6">
                 <br>
                 <label  >Category
                 </label>
                
-                  <select class="form-control" name='category_id' id="category_id">
-                    <option selected>Select Category</option>
+                  <select class="form-control" name='category_id' >
+                    
                     @foreach ($categories as $category)
-                    <option value="{{$category->id}}">{{$category->name}}</option> 
+                    <option id="category_id" value="{{$category->id}}" >{{$category->name}}</option> 
                     @endforeach
                     
                   </select>
@@ -182,20 +200,33 @@
                   
                 </div>
                 
-                <div class=" col-md-6 ">
+                 <div class=" col-md-6 ">
                   <br>
                   <div class="input-group  ">
 
-                    <input class="form-control" type="file" id="formFile" name=img id="img">
+                    <input class="form-control" type="file" id="formFile" name="img" id="img">
 
                     <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
                 </div>
-              </div>
+              </div> 
+              
+
+               
+                <div  id="allphotos" class=" photos m-5 container-fluid" >
+               
+                  
+                 
+                </div>
+            
+              
+               
+                
+          
               <div class=" col-md-6 ">
                 <br>
                 <div class="input-group  ">
 
-                  <input class="form-control " type="file" id="formFile"   name="images[]"  id="images"
+                  <input class="form-control " type="file" id="formFile"   name="imgs[]"
                    
                   accept="image/*"
                   multiple>
@@ -209,7 +240,7 @@
               <div class="form-group">
                 <br>
                 <div class="col-md-6 ">
-                  <button  type="submit" class="btn btn-primary btn_update ">submit</button>
+                  <button  type="submit" class="btn btn-primary  ">submit</button>
                   
                 </div>
               </div>
@@ -236,21 +267,15 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
   
 // get edit
+$(document).ready(function(){
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+  }
+});
 
 $(document).on('click','.edit_btn',function(e)
 {
@@ -276,74 +301,172 @@ $.ajax(
       $('#ad_id').val(response.advertisment.id);
       $('#title').val(response.advertisment.title);
       $('#desc').val(response.advertisment.desc);
+     
       $('#price').val(response.advertisment.price);
       $('#condition').val(response.advertisment.condition);
-      $('#user_id').val(response.user.email);
-      $('#is_accepted').val(response.advertisment.is_accepted);
-      $('#is_active').val(response.advertisment.is_active);
       
+      console.log(response.advertisment.price);
+      $('#userid').html("");
+      $('#userid').removeClass('t_dn');
+      $.each(response.users, function (key, users) { 
 
-    }
+         $('#userid').val(users.id);
+         $('#userid').append(``+users.email+` `);
+         
+      });
+
+      $('#allphotos').html("");
+      $('#allphotos').removeClass('photos');
+      console.log(response.images)
+  $.each(response.images, function (key, images) { 
+                      console.log(images)
+							$('#allphotos').append(`
+                
+    
+        
+     
+      <img  src="{{asset("Uploads/Advertisments/`+images.image+`")}}" alt=""  height="40px" >
+      `
+               
+      );
+//       document.getElementById("delete").onclick = function () {
+
+// location.href="deleteimage/"+images.id
+// };
+
+						});
+      
+      
+   
+
+    
   
     
   }
  
 }
-)})
+})})
+//delete sub images
+
+
+
+
+//end delete sub images
 // end get edit
 // post
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
+
   
-$(document).on('click','.btn_update',function(e)
+$(document).on('submit','#UpdateModal',function(e)
 {
 e.preventDefault();
-var id=$('#ad_id').val();
-var data = {
-                'title': $('#title').val(),
-                'desc': $('#desc').val(),
-                'category_id': $('#category_id').val(),
-                'user_id': $('#user_id').val(),
-                'condition': $('#condition').val(),
-                'price': $('#price').val(),
-                'img': $('#img').val(),
-                'images': $('#images').val(),          
 
-              }
-let EditformtData=new FormData($('#UpdateModal')[0]);
+var id=$('#ad_id').val();
+
+
+var xhr = new XMLHttpRequest(),
+    method = "POST",
+    url="update/"+id;
+
+xhr.open(method, url, true);
+xhr.onreadystatechange = function () {
+  if(xhr.readyState === XMLHttpRequest.DONE) {
+    var status = xhr.status;
+    if (status === 0 || (status >= 200 && status < 400)) {
+      // The request has been completed successfully
+      console.log(xhr.responseText);
+    } 
+}};
+
+// var formData = new FormData();
+// formData.append("_token", document.querySelector("meta[name=_token]").content);
+
+
+
+// var data = {
+
+//                "_token": $('#token').val(),
+//                 'title': $('#title').val(),
+//                 'desc': $('#desc').val(),
+//                 'category_id': $('#category_id').val(),
+//                 'user_id': $('#user_id').val(),
+//                 'condition': $('#condition').val(),
+//                 'price': $('#price').val(),
+//                 'img': $('#img').val(),
+                    
+
+//               }
+//               console.log(data);
+           
+              
+ let edit =new FormData($('#UpdateModal')[0]);         
+// var data={
+//   'id': $('#ad_id').val(),
+// "_token": $('#token').val(),
+//  'title': $('#title').val(),
+ 
+//  'desc': $('#desc').val(),
+//  'category_id': $('#category_id').val(),
+//  'user_id': $('#user_id').val(),
+//  'condition': $('#condition').val(),
+//  'price': $('#price').val(),
+ 
+
+// };
+// console.log(data);
+
+
 $.ajax(
   {
+  
+  
    type:"POST",
    
   url:"update/"+id,
-  data:data,
+  enctype:"multipart/form-data",
+  data:edit,
+ 
+  
   dataType: "json",
+  
+  
   contentType:false,
   processData:false,
-  success: function (response){
-  if (response.status==400)
+
+  success: function (data){
+  
+  
+
+  if (data.status==400)
   {
+   
     $('#updateerrors').html("");
     $('#updateerrors').removeClass('d-none');
-    $.each(response.errors,function(key,err_value)
+    $.each(data.errors,function(key,err_value)
     {
       $('#updateerrors').append(`<li>`+err_value+`</li>`);
     });
   }
-  elseif (response.status==404)
+  else if (data.status==404)
   {
-    alert(response.message);
+    alert(data.message);
 
   }
-  elseif(response.status==200)
+  else if(data.status==200)
   {
  $('#EditEmployeeModal').modal('hide');
- alert(response.message);
+
+ alert(data.message);
   }
-}})})
+  
+
+},
+error: function (xhr) {
+        console.log(xhr.responseText);
+    }
+
+
+
+})})})
 // end post
 // real timesearch
 $('#keyword').keyup(function()
@@ -384,7 +507,9 @@ $('#keyword').keyup(function()
                    <td>${advertisment.price}</td>
                    <td> <img src="{{asset("Uploads/Advertisments/`+advertisment.img+`")}}" alt=""  height="40px" ></td>
                    <td>${advertisment.condition}</td>
-                   <td><button id="myButton2"  type="button" value="`+advertisment.id+`" class="btn btn-info  fa fa-pencil">edit</button>
+                   <td>
+                    <a data-toggle="modal " data-target="#exampleModalCenter" class="btn btn-info  fa fa-pencil" value="`+advertisment.id+`"> Edit</a>
+                    <button type="button"  class="edit_btn btn btn-primary py-3 px-4" value="`+advertisment.id+`" ></button>
                    <button id="myButton"  type="button" value="`+advertisment.id+`" class=" btn btn-danger fa fa-trash-o">deletet</button></td>
                 
                </tr>
@@ -401,11 +526,7 @@ $('#keyword').keyup(function()
               location.href="delete/"+ advertisment.id
    };
    //edit
-             document.getElementById("myButton2").onclick = function () {
 
-                location.href="edit/"+ advertisment.id
-
-};
   
   }
         }

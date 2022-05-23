@@ -81,7 +81,7 @@ Route::prefix('user')->name('user.')->group(function () {
        Route::get('/auction/bidders/{id}',[AuctionController::class,'bidders_info'])->name('auction.bidders_info');
        Route::get('/auction/biddersjoin',[AuctionController::class,'bidders_jion'])->name('auction.bidders_jion'); //الاوكشن اللي الشخص اشترك فيه
        Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
-       Route::post('/auction/deleteimage/{id}',[AuctionController::class,'deleteimage'])->name('auction.deleteimage');
+       Route::get('/auction/deleteimage/{id}',[AuctionController::class,'deleteimage'])->name('auction.deleteimage');
            
       
       //end Auction CRUD
@@ -135,6 +135,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
       Route::post('/advertisment/update/{id}',[AdsController::class,'update'])->name('ads.update');
       Route::get('/advertisment/delete/{id}',[AdsController::class,'delete'])->name('ads.delete');
       Route::get('/advertisment/search',[AdsController::class,'search'])->name('ads.search');
+      Route::get('/advertisment/deleteimage/{id}',[AdsController::class,'deleteimage'])->name('ads.deleteimage');
 
       //clients
       Route::get('/users/index',[ClientsController::class,'index'])->name('user.index');

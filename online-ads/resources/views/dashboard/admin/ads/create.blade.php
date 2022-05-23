@@ -10,19 +10,11 @@
       <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Form Design <small>different form elements</small></h2>
+            <h2>Add new Advertisment</h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
               </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a class="dropdown-item" href="#">Settings 1</a>
-                  </li>
-                  <li><a class="dropdown-item" href="#">Settings 2</a>
-                  </li>
-                </ul>
-              </li>
+              
               <li><a class="close-link"><i class="fa fa-close"></i></a>
               </li>
             </ul>
@@ -43,9 +35,7 @@
               <div  class=" col-md-6">
                 <label  >description</span>
                 </label>
-                <div >
-                  <input type="text" required="required" class="form-control " name="desc">
-                </div>
+                <input type="text" required="required" class="form-control " name="title">
               </div>
             
 
@@ -108,7 +98,7 @@
                     <br>
                     <div class="input-group  ">
 
-                      <input class="form-control" type="file" id="formFile" name=img>
+                      <input class="form-control p-1"  type="file" id="formFile" name=img>
 
                       <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
                   </div>
@@ -117,7 +107,7 @@
                   <br>
                   <div class="input-group  ">
 
-                    <input class="form-control " type="file" id="formFile"   name="images[]"
+                    <input class="form-control p-1 " type="file" id="formFile"   name="images[]"
                      
                     accept="image/*"
                     multiple>
