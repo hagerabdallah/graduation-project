@@ -16,7 +16,7 @@ class CreateAdvertismentsTable extends Migration
         Schema::create('advertisments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');;
             $table->string('title');
             $table->text('desc');
             $table->string('img',50);

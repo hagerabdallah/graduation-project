@@ -8,6 +8,8 @@ use App\Rules\MatchOldPassword;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+
 
 
 
@@ -22,17 +24,18 @@ class UserController extends Controller
         'email'=>'required|email|unique:users,email',
         'password'=>'required|min:5|max:30',
         'phone'=>'required',
-        'img'=>'image|mimes:jpg,png,jpeg',
+        'img'=>'required|image|mimes:jpg,png,jpeg',
         'city'=>'required',
         ]);
-        
+        $new_name=$request->img->hashName();
+        Image::make($request->img)->resize(50,50)->save(public_path('Uploads/users/'.$new_name));
         
         $user=User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password'=> Hash::make($request->password),
-            'img'=>$request->img,
+            'img'=>$new_name,
             'phone'=>$request->phone,
             'city'=>$request->city,
            
@@ -63,14 +66,14 @@ class UserController extends Controller
     
             ]);
     
-            $is_login=$request->only('email','password');
-            if(auth::attempt($is_login) )
+            // $is_login=$request->only('email','password');
+            if(auth::attempt(['email' => $request->email,'password' => $request->password]) )
             {
                 return redirect()->route('user.home');
             }
             else
             {
-                return redirect()->route('user.login');
+                return back()->with('fail','Something went wrong, failed to update');
             }
     
 
@@ -81,56 +84,37 @@ class UserController extends Controller
         Auth::guard('web')->logout();
         return redirect('/');
     }
-    public function edit()
+    public function profile()
     {
         
         // $user=DB::table('users')->where('id',auth()->id())->first();
 
         $user=User::where('id',auth()->id())->first();
-        return view ('dashboard.user.profile.edit',compact('user'));
+        return view ('dashboard.user.profile.index',compact('user'));
     }
 
-
-
-    
-    public function update (Request $request){
+    public function update (Request $request,$id){
         
         $request->validate([
         'first_name' => 'required',
         'last_name' => 'required',
         'phone'=>'required',
-        'img'=>'image|mimes:jpg,png',
+        // 'img'=>'image|mimes:jpg,png',
         'city'=>'required',
         ]);
         
-        $user=User::findOrfail(Auth()->id())->update ([
+        User::findOrfail($id)->update ([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'img'=>$request->img,
+            // 'img'=>$request->img,
             'phone'=>$request->phone,
             'city'=>$request->city,
            
         ]);
-     
-
-      
-       if( $user)
-                  {
-                    return view('dashboard.user.home')->with('success',' successfully');
-                  }
-
-
-                  else{  return back()->with('fail','Something went wrong, failed to update');}
-               
-
-                
+      return back();            
             }
 
-public function changepass(){
 
-return view('dashboard.user.profile.changepass');
-
-}
 
 public function storepass(Request $request)
 {
@@ -141,16 +125,42 @@ public function storepass(Request $request)
     ]);
 
     User::findOrfail(auth()->id())->update(['password'=> Hash::make($request->new_password)]);
-
-    dd('Password change successfully.');
+  return back();
 }
 
+public function upload(Request $request,$id)
+    {
+        $request->validate([
+            
+            'img'=>'required|image|mimes:jpg,png',
+            
+            ]);
+            $old_name=User::findOrfail($request->id)->img;
 
-    
-    
+        if($request->hasFile('img')){
+
+               unlink(public_path('Uploads/users/').$old_name);
+               $new_name=$request->img->hashName();
+               Image::make($request->img)->resize(50,50)->save(public_path('Uploads/users/'.$new_name));
+               $request->img=$new_name;
+            }
+          else{
+             
+            $request->img= $old_name;
+        
+        }
+        User::findOrfail($id)->update([
+            'img'=>$request->img,
+        ]);
+        return redirect()->back();
+    }
+
+
+   
+}
 
 
   
 
 
-}
+    

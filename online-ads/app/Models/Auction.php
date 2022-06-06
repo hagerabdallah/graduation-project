@@ -19,6 +19,8 @@ class Auction extends Model
         'min_price',
         'condition',
         'is_accepted',
+        'is_active',
+        'created_at'
         
     ];
 
