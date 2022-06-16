@@ -7,29 +7,31 @@
 
 
         <div class="col-lg-4 col-md-5">
-            <div class="card" style="min-height: 485px">
+            <div class="card" style="min-height: 450px">
                 <div class="card-header card-header-text">
                     <h4 class="card-title"></h4>
                 </div>
                 <div class="card-content">
 
-                    <section class="mt-4 text-center"> <img src="{{asset('/Uploads/users/'.$user->img)}}" class="img-circle"
+                    <section class=" text-center"> <img src="{{asset('/Uploads/users/'.$user->img)}}" class="img-circle rounded-circle"
                                   width="150" />
                         <h4 class="card-title mt-2">{{$user->first_name." ".$user->last_name}}</h4>
-                        <div class="mt-3">
-                            <input type="submit" id="file" class="upload">
-                            <label for="file" class=" text-center upload-label">
+                            {{-- <input type="submit" id="file" class="upload"> --}}
+                            {{-- <label for="file" class=" text-center upload-label"> --}}
                                 <form action="{{route('user.upload',$user->id)}}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    
+                                    <div class="mt-3">
+                                        <input type="file" id="file" class="upload" name="img">
+                                        <label for="file" class=" text-center upload-label">
 
-                                     
-                                    <input type="file" name="img">
-                                   <input type="submit" value="Upload">
-                                    {{-- <input type="submit" value="Upload"> --}}
+                                            <i class="bi bi-folder-plus"></i> Choose a photo
+                                        </label>
+                                    </div>
+                                         <input class="mt-2 p-2 btn" type="submit" value="upload" style="background-color: #012970;color:aliceblue" >
+                                    
                                 </form>
                                 
-                            </form>
-                        </div>
 
                     </section>
 
@@ -44,7 +46,7 @@
 
 
         <div class="col-lg-8 col-md-7">
-            <div class="card" style="min-height: 485px">
+            <div class="card" style="min-height: 470px">
                 <div class="card-header card-header-text ">
 
                     <h4 class="m-2">edit personal information</h4>
@@ -77,19 +79,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group m-2">
-                            <label class="col-sm-12 mb-1">Select Country</label>
-                            <div class="col-sm-12">
-                                <select name="city" class="form-control form-control-line">
-
-                                    <option selected >{{$user->city}}</option>
-                                    <option >Giza</option>
-                                    <option >alex</option>
-                                    <option>portsaid</option>
-                                </select>
-                            </div>
-                        </div>
-
+                        
 
                         <div class="form-group mt-4">
                             <div class=" m-2 ">

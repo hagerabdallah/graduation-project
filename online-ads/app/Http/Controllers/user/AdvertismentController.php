@@ -75,6 +75,8 @@ public function create()
      'price'=>'required|numeric',
      'condition'=>'required|string',
      'category_id'=>'required',
+     'is_active'=>'nullable',
+     'address'=>'required'
     //  'imges'=>'required|image|mimes:jpg,png,jpeg',
  ]);
  if (!$request->has('is_active')){
@@ -96,7 +98,9 @@ Image::make($request->img)->resize(612,408)->save(public_path('Uploads/advertism
     'condition'=>$request->condition,
      'img'=>$new_name,
      'category_id'=>$request->category_id,
-     'is_active' => $request->is_active
+     'is_active' => $request->is_active,
+     'address'=>$request->address
+
  ]);
 
  

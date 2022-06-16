@@ -9,7 +9,7 @@ class Advertisment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','desc','img','price','condition','category_id','user_id','is_accepted','is_active'];
+    protected $fillable = ['title','desc','img','price','condition','category_id','user_id','is_accepted','is_active','address'];
 
     // ,'category_id'
     public function category()
