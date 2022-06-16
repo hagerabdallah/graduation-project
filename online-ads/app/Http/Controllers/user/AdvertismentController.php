@@ -116,7 +116,7 @@ $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/adv
         ]);
     }
 }
- return view('dashboard.user.home');
+return redirect('user/advertisment/index');
 
 }
 #################edit function##################

@@ -62,7 +62,7 @@ public function fetchauction()
 ]);
 
 $newname=$request->img->hashName();
-Image::make($request->img)->resize(50,50)->save(public_path('Uploads/auctions/'.$newname));
+Image::make($request->img)->resize(612,408)->save(public_path('Uploads/auctions/'.$newname));
 $request->img=$newname;
    $newauction=Auction::create([
        'user_id'=>Auth()->id(),
@@ -90,7 +90,7 @@ $request->img=$newname;
     }
 }
 
-   return view('dashboard.user.home');
+return redirect('user/auction/index');
 }
 
 /////////////////////////////////end create auction
@@ -307,6 +307,8 @@ public function get_precentage($id){
 //***show  selected auction */
 public function show ($id)
 {        $auth_id = Auth::id();
+    $data['count'] = Price::where('auction_id',$id)->distinct('user_id')->count();
+
     $data['auction']=Auction::findOrfail($id);
     $data['price']=price::where('user_id',$auth_id)->where('auction_id',$id)->first();
      $cccc= price::count();
@@ -345,9 +347,8 @@ public function join (Request $request)
         'auction_id'=>'required|exists:auctions,id'
         
      ]);
-     $count = Price::where('auction_id',$request->auction_id)->count();
-     //dd($count);
-     $price=Auction::where('id',$request->auction_id)->first();
+     $count = Price::where('auction_id',$request->auction_id)->distinct('user_id')->count();
+          $price=Auction::where('id',$request->auction_id)->first();
      $min_price=$price->min_price;
      $maxprice= Price::where('auction_id',$request->auction_id)->max('price');
     

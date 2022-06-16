@@ -96,18 +96,22 @@
                 {{-- <span style="font-family: Verdana, Geneva, Tahoma, sans-serif; color: #012970;">Categories</span> --}}
                 <select class="form-select mt-2 w-50 ml-5" aria-label="Default select example" name="condition">
                     <option selected>Select condition</option>
-                    <option value="1">New</option>
-                    <option value="2">used</option>
+                    <option >New</option>
+                    <option >used</option>
 
                 </select>
 
-           
+                <span class="mt-4 " style="color: #012970; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    activation</span>
+                    <div class="form-check ">
+                      
+                        <input class="form-check-input p-2" type="checkbox"name='is_active'
+                            >
+                        <label class="form-check-label p-0" for="flexRadioDefault2">
+                          active
+                        </label>
 
-
-
-
-
-
+                    </div>
 
         </div>
 

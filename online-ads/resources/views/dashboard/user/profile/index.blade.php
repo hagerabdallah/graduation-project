@@ -100,7 +100,7 @@
 
     </div>
 
-    <div class=" w-100 " style="padding-left:416px ;">
+    <div class="row ms-auto" style="width: 68%;">
         <div class="col-lg-12 col-xlg-9 col-md-7   ">
             <div class="card">
                 <!-- Tab panes -->

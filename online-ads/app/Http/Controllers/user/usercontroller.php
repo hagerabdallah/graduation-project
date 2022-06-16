@@ -98,7 +98,7 @@ class UserController extends Controller
         'last_name' => 'required',
         'phone'=>'required',
         // 'img'=>'image|mimes:jpg,png',
-        'city'=>'required',
+        // 'city'=>'required',
         ]);
         
         User::findOrfail($id)->update ([
@@ -106,7 +106,7 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             // 'img'=>$request->img,
             'phone'=>$request->phone,
-            'city'=>$request->city,
+            // 'city'=>$request->city,
            
         ]);
       return back();            

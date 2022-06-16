@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\ClientsController;
 use App\Http\Controllers\admin\ClientauctionController;
 use App\Http\Controllers\user\AdvertismentController;
 use App\Http\Controllers\home\homeadvertismentcontroller;
+use App\Http\Controllers\home\homeauctioncontroller;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\user\AuctionController;
 use App\Models\Advertisment;
@@ -177,6 +178,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
 Route::prefix('home')->name('home.')->group(function(){
 
   Route::get('/allAds',[homeadvertismentcontroller::class,'index'])->name('index');
+  Route::get('/allauctions',[homeauctioncontroller::class,'index'])->name('index');
 
 
 

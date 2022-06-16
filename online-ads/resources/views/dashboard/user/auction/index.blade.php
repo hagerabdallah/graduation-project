@@ -123,26 +123,21 @@
                   <label for="Product Name:" class="form-label "
                             style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;">Auction
                             Name</label>
-                  {{-- <label  >name</span>
-                  </label> --}}
+                  
                   <div >
 
 
                     <input type="text" class="form-control"  placeholder="Enter Name"
                             style="border-radius: 5px; "  name="name" id="name">
-                    {{-- <input type="text" required="required" class="form-control " name="name" id="name" > --}}
                   </div>
                 </div>
                 <div  class=" col-md-6">
                   <label for="exampleFormControlTextarea1"
                             style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;"
                             class="form-label">Description</label>
-                  {{-- <label  >description</span>
-                  </label> --}}
+                 
                   <div >
 
-                    {{-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            style="border-radius: 5px;" name="desc" id="desc"></textarea> --}}
 
                     <input type="text" required="required" class="form-control " name="desc" id="desc"  >
                   </div>
@@ -152,8 +147,7 @@
                       <br>
                       <label for="Product Price" class="form-label  " style=" color: #012970 ; font-family:
                                 Verdana, Geneva, Tahoma, sans-serif">Minmum Price:</label>
-                      {{-- <label  >price</span>
-                      </label> --}}
+                     
                       <div >
 
                         <input type="text" class="form-control " 
@@ -198,12 +192,7 @@
                       </p>
                       </div>
                       <div  class=" col-md-6">
-                        {{-- <br>
-                        <label  >EndDate</span>
-                        </label>
-                        <div >
-                          <input type="text" required="required" class="form-control " name="end_date"  id="end_date">
-                        </div> --}}
+                        
                         <p>
                           <label for="date" style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;">End
                             date</label>
@@ -220,12 +209,25 @@
                       <hr>
   
   
-                      <div class="input-group mb-3 w-75">
+                      <div class="input-group mb-3 ">
   
                           <input type="file" class="form-control"  id="formFile" name="img" id="img">
                           <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
                       </div>
+
+                      <span class="mt-4 " style="color: #012970; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        activation</span>
+                        <div class="form-check ">
+                          
+                            <input class="form-check-input p-2" type="checkbox"name='is_active'
+                                >
+                            <label class="form-check-label p-0" for="flexRadioDefault2">
+                              active
+                            </label>
+    
+                        </div>
                     </div> 
+                    
                       
                         {{-- cover-img  --}}
                       
@@ -249,7 +251,7 @@
                   <div class=" col-md-6 ">
                     <h5> Select sub Image for Your Auction</h5>
                     <hr>
-                    <div class="input-group mb-3 w-75">
+                    <div class="input-group mb-3">
 
                         <input type="file" class="form-control"  id="formFile"   name="imgs[]"
                        
@@ -258,44 +260,10 @@
                         <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
                     </div>
                      <div class="container-fluid">
-                    <div id="allphotos"  class="photos row container-fluid">
-                      {{-- <div class="row ">
-  
-                        <div class="col-3">
-                                <div class="image">
-                                    <img src="{{asset("Uploads/auctions/`+images.image+`")}}" class="img-fluid w-75 image_img">
-                                    <div class="image_overlay">
-                                        <div class="image_close">
-                                            <a href="" class="bi bi-x-circle-fill"> </a>
-          
-                                        </div>
-                                    </div>
-          
-                                </div>
-          
-          
-                            </div>
-                        
-                              </div> --}}
-                      
+                    <div id="allphotos"  class="photos row container-fluid">          
                          </div>
                      </div>
                   </div>
-                  
-                  
-                  
-                    {{-- <br>
-                    <div class="input-group  ">
-                              sub-img
-
-                      <input class="form-control " type="file" id="formFile"   name="imgs[]"
-                       
-                      accept="image/*"
-                      multiple>
-      
-                      <label class="input-group-text" for="inputGroupFile02">Upload all Images</label>
-                  </div> --}}
-                  {{-- <div class="ln_solid"></div> --}}
                   <div class="form-group">
                     <br>
                     <div class="col-md-6 ">
@@ -395,7 +363,7 @@ function fetchauction() {
                     <td>` + item.end_date + `</td>\
                     <td>` + activation + `</td>\
                     <td>` + startus + `</td>\
-                    <td> <img src="{{asset("Uploads/auctions/`+item.img+`")}}" alt=""  height="40px" ></td>\
+                    <td> <img src="{{asset("Uploads/auctions/`+item.img+`")}}" alt=""  height="40px" class="rounded-circle"></td>\
 
                     
                     /<td>

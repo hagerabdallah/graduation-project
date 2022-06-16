@@ -1,51 +1,247 @@
-@extends('dashboard.user.layout')
+@extends('home.layout')
 @section('content')
 
-    <h1>this timer</h1>
-    {{-- <h1 id="h" value="">{{$auction->end_date}}</h1> --}}
+   
+<div class="container-fluid jac">
 
-    <div class="mb-3" >
-      <label class="form-label">end</label>
-      <input class="form-control" id="h" type="text" placeholder="" aria-label="" 
-        value="{{\Carbon\Carbon::parse($auction->end_date)->format('M d, Y H:i:s')}}"
-       >
-       
+
+  <div class="row">
+
+
+
+    <div class="col-lg-6">
+      <div class="demo">
+        <p id="demo"></p>
+      </div>
+
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner ms-3">
+          <div class="carousel-item active">
+            <img src="imgs/background.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="imgs/background.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="imgs/background.png" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+
+      </div>
+      <div class="desc ms-3">
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+              type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"
+              style="color:  #012970; font-size: 17px; font-family: Verdana, Geneva, Tahoma, sans-serif;">Description</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+              type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"
+              style="color:  #012970; font-size: 17px; font-family: Verdana, Geneva, Tahoma, sans-serif;">About
+              seller</button>
+          </li>
+
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            tabindex="0"
+            style="padding: 20px 20px ; font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size:16px ; color: #141619;">
+            {{$auction->desc}}</div>
+          <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0"
+            style="padding: 20px 20px ">
+
+            <table class="about-seller ">
+
+              <tbody style="color:  #141619; font-size: 17px; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                <tr>
+                  <th>Name</th>
+                  <td>
+                    <p>{{$auction->user->first_name}} {{$auction->user->last_name}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Phone number</th>
+                  <td>
+                    <p>{{$auction->user->phone}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Address</th>
+                  <td>
+                    <p>{{$auction->address}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>
+                    <p>{{$auction->user->email}}</p>
+                  </td>
+                </tr>
+
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-1">
     </div>
 
-    <p id="demo"></p>
 
 
-    <form action="{{route('user.auction.join')}}"  method="POST">
-      @csrf
-        <input type="hidden" name="auction_id" value="{{$auction->id}}">
-        <input type="hidden" id="now" name="now" value="{{\Carbon\Carbon::now()}}">
+    <div class="col-lg-4">
+      <div id="auction-title" class="auction-title"
+        style="color:  #012970; font-size: 19px; font-family: Verdana, Geneva, Tahoma, sans-serif;">{{$auction->name}}</div>
+      <div class="current-price-propductpage">
+        <ul>
+          <li id="lastprice" class="lastprice" style=" color: #012970; font-size: 17px; font-family: Verdana,
+            Geneva, Tahoma, sans-serif;">last Price:</li>
+          <li id=" lastprice-num" class="lastprice-num ms-2">{{$last_price}}EGP</li>
+        </ul>
+      </div>
 
-      <div class="form-group">
-        
-        <input type="text" class="form-control" name="price"  placeholder="price" >
-        <span class="text-danger">@error('name'){{ $price }} @enderror</span>
+      <div class="price">
+
+            <form action="{{route('user.auction.join')}}" class="row g-3"  method="POST">
+             @csrf
+             <input type="hidden" name="auction_id" value="{{$auction->id}}">
+             <input type="hidden" id="now" name="now" value="{{\Carbon\Carbon::now()}}">
+
+          <div class="col-lg-8">
+            <input type="number" class="form-control" id="number"  name="price" placeholder="Enter your price">
+            @if(App\Models\Price::where('auction_id','=',$auction->id)->where('user_id', '=', Auth::guard('web')->user()->id)->exists())
+               
+              
+            @if($f_prcentag<=3900000)
+            <button disabled class="btn btn-primary " id="myBtn" > <a href="{{route('user.auction.disenroll', $auction->id )}}">go out</a></button>
+               @else
+               <button  class="btn btn-primary " id="myBtn" > <a href="{{route('user.auction.disenroll', $auction->id )}}">go out</a></button>
+              @endif
+          
+          @endif
+          </div>
+          <div class="col-lg-4">
+            <button type="submit " class="btn btn-primary mb-3  ">Place Bid</button>
+          </div>
+        </form>
+      </div>
+      <div class="fav">
+        <a href="/account/login.aspx"><i class="bi bi-heart"
+            style="color:  #012970; font-size: 17px; font-family: Verdana, Geneva, Tahoma, sans-serif;"> Add to
+            favourite</i></a>
+
+      </div>
+
+      <div class=" Insights col-lg-12">
+        <div class="card ">
+          <div class="desc-header fluid">
+
+            <div class="card-header">
+              <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item" style="margin-left: 20">
+                  <strong style="font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 18px;">
+                    Insights</strong>
+                </li>
+
+
+
+              </ul>
+            </div>
+          </div>
+          <div class="card-body ">
+            <p class=" card-title ">
+            <div class=" row">
+              <div class=" col-lg-12 col-md-12 col-sm-12">
+                <div class="count-item watching ">
+
+                  <span
+                    style="font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 20px ; color: #012970;">Watching</span><br>
+                  <strong style="font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 18px;">63</strong>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="count-item total-bids ">
+
+                  <span style="font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 20px ; color: #012970;">
+                    Total bids
+                  </span><br>
+                  <strong style="font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 18px;">{{$count}}</strong>
+                </div>
+              </div>
+
+            </div>
+            </p>
+
+          </div>
+
         </div>
-
-        @if(App\Models\Price::where('user_id', '=', Auth::guard('web')->user()->id)->exists())
-
-          <input type="hidden" name="disenroll_value" id="disenroll_value" value="{{$f_prcentag}}">
-          <button  class="btn btn-primary " id="myBtn" > <a href="{{route('user.auction.disenroll', $auction->id )}}">go out</a></button>
-
-        @endif
-
-       
-        <button type="submit" class="btn btn-primary stop_btn" id="edi_btn"  >Submit</button>
-      </form>
-    <h1>{{$last_price}}<h1>
-     {{-- </h1> {{$price->user_id}}</h1> --}}
-      {{-- @if($price===null) --}}
-      {{-- @endif --}}
-      {{-- <button type="submit"  class="btn btn-primary"  >dd</button> --}}
+      </div>
 
 
 
-    {{-- <h1>{{$getDate = date("F d, Y", $auction); }}</h1> --}}
-    <div id="element"></div>
+
+
+
+
+      <div class=" desc col-lg-12">
+        <div class="card text-center">
+          <div class="desc-header fluid">
+
+            <div class="card-header">
+              <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item" style="margin-left: 20">
+                  <strong style="font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 18px;"> Be
+                    Careful</strong>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="card-body"
+            style="text-align: left ;font-family:Verdana, Geneva, Tahoma, sans-serif ; font-size: 18px;">
+            <p class="card-title">Special title treatment</p>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
 
 @endsection
 
@@ -82,37 +278,10 @@ $(window).load(function(){
 
 
 var counts= document.getElementById("now").value;   
-    //  console.log(counts);
-
-
-     // Take what is the date of last 30 days of today's date.
-  //  $disable_date = date('Y-m-d',strtotime('+$c',strtotime($auction->current_date)));
-
-// Now check is buyed date is greater then last 30 days then disable otherwise enable.
-// if(strtotime($auction->now)= strtotime($tDays)){
-//      echo 'DISABLE';
-//  } else {
-//      echo 'ENABLE';
-//  }
   
-      //  var m= count.format('Y/m/d h:i:s') ;
-      //  console.log(m);  
-        // var L=count.getMonth()
-        // console.log(count); 
      var count= document.getElementById("h").value;   
-    //  console.log(count);
     var m =String(count);
-    // console.log(m);
     
-  //  date.getTime();
-
-      // console.log(d);
-    // var s =String(count_start);
-// console.log('Converted date: '+count.format('MMMM D, YYYY h:m:s')); 
-                   
-//         const currentMonth = 09-24-2022 13:23:35;
-// const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-// console.log(months[currentMonth.getMonth()]);
 
 
 // Set the date we're counting down to
@@ -151,36 +320,7 @@ var x = setInterval(function() {
 
 
 </script>
+<script src="{{asset('user/js')}}/bootstrap.js"></script>
 @endsection
 
-  {{-- <td> 
-    @foreach ($images as $img )
-   <ul class="list-inline ">
-   
-   
-     <li>
-       <img class="avatar" src="{{asset("Uploads/Advertisments/$img->image")}}"  height="20px" alt="">
-     </li>
-   
-    
-   
-   </ul>
-   @endforeach
- </td>
- --}}
-
-
-
-
-
-
-  {{-- @foreach ($images as $image)
-        
-  <img src="{{asset("Uploads/Auctions/$image->image")}}" alt="">
-
   
-   <h1>{{$image->image}}<h1>
-@endforeach
-
-<img src="{{asset("Uploads/Auctions/$advertisment->img")}}" alt=""> --}}
-

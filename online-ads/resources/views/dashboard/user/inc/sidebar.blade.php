@@ -55,8 +55,10 @@
         <hr class=" w-75 text-center m-3" style="height:0.5px; color: cornflowerblue" ;>
         <li class="list-unstyled components btn">
 
-            <a href="{{ route('user.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" style="color: #012970 ;font-family:  'Poppins',sans-serif;"> <i class="fa fa-power-off"></i>Logout</a>
-              <form action="{{ route('user.logout') }}" method="post" class="d-none" id="logout-form">@csrf</form></i>  </a>
+            
+
+              <a href="{{ route('user.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" style="color: #012970 ;font-family:  'Poppins',sans-serif;" class="bi bi-lock mx-3 "><span class="mx-3">Logout</span></a>
+                                     <form action="{{ route('user.logout') }}" method="post" class="d-none" id="logout-form">@csrf</form>
             {{-- <a href="" style="color: #012970 ;font-family:  'Poppins',sans-serif;"><i
                     class="bi bi-lock "></i>LogOut</a> --}}
         </li>

@@ -6,10 +6,8 @@
   <div class="title_right">
     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
       <div class="input-group">
-        <input id="keyword" type="text" class="form-control" placeholder="Search for...">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button">Go!</button>
-        </span>
+        <input id="keyword" type="text" class="form-control m-3" placeholder="Search for..." style="border-radius: 15px">
+   
       </div>
     </div>
   </div>
@@ -74,7 +72,7 @@
          
           <div class="modal-body ">
             @include('dashboard.admin.inc.errors') 
-        <form id="UpdateModal" method="POST"    data-parsley-validate class="form-horizontal form-label-left">
+        {{-- <form id="UpdateModal" method="POST"    data-parsley-validate class="form-horizontal form-label-left">
          @csrf
           <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
           <div class="row">
@@ -155,7 +153,7 @@
              
                 {{-- هنا بنحط جواها الصور  --}}
                
-              </div>
+              {{-- </div>
           
             
             <div class=" col-md-6 ">
@@ -181,14 +179,154 @@
               </div>
             </div>
           
-       
-          
-          
+  
           
           </div>
-          
+          </form> --}}
 
-        </form>
+        
+
+        <form id="UpdateModal" method="POST"    data-parsley-validate class="form-horizontal form-label-left">
+          @csrf
+           <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+           <div class="row">
+           <div  class=" col-md-6">
+            <input type="hidden" name="id" id="ad_id"    > 
+            <ul class="alert alert-warning d-none" id="updateerrors"> </ul>
+             {{-- <input type="hidden" name="id" id="auc_id"> 
+             <ul class="alert alert-warning d-none" id="updateerrors"> </ul> --}}
+             {{-- <div >
+               <input type="text" required="required" class="form-control " name="title" id="title" >
+             </div> --}}
+
+             <label for="Product Name:" class="form-label "
+                       style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;">title
+                       </label>
+             
+             <div>
+
+               <input type="text" class="form-control"  placeholder="Enter Name"
+                       style="border-radius: 5px; "  name="title" id="title">
+             </div>
+             <br>
+             <label for="Product Price" class="form-label  " style=" color: #012970 ; font-family:
+             Verdana, Geneva, Tahoma, sans-serif">category</label>
+            
+               <select class="form-control" name='category_id' >
+                 <option selected class="t_dn"  id="category_id"> </option>
+                 @foreach ($categories as $category)
+                 <option  value="{{$category->id}}" >{{$category->name}}</option> 
+                 @endforeach
+                 
+               </select>
+               <h5 class="mt-3"> Select cover Image for Your Advertisment</h5>
+               <hr>
+                <div class="input-group  ">
+
+                  <input class="form-control" type="file" id="formFile" name="img" id="img">
+
+                  <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
+              </div>
+              <h6 class="mt-2" style="color: #012970; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                Advertisment Condition</h6>
+              <div >
+                <select class="form-select mt-2 ml-5" style="border-radius: 10px" aria-label="Default select example" name="condition">
+                  <option selected>Select condition</option>
+                  <option value="1">New</option>
+                  <option value="2">used</option>
+
+              </select>
+
+              <span class="mt-4 " style="color: #012970; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                activation</span>
+                <div class="form-check ">
+                  
+                    <input class="form-check-input p-2" type="checkbox"name='is_active'
+                        >
+                    <label class="form-check-label p-0" for="flexRadioDefault2">
+                      active
+                    </label>
+
+                </div>
+
+              </div>
+          
+            
+
+           </div>
+
+           <div  class=" col-md-6">
+             <label for="exampleFormControlTextarea1"
+                       style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;"
+                       class="form-label">Description</label>
+            <div >
+
+               <input type="text" required="required" class="form-control "  name="desc" id="desc"   >
+             </div>
+
+              <label for="Product Price" class="form-label mt-4 " style=" color: #012970 ; font-family:
+                        Verdana, Geneva, Tahoma, sans-serif">Price</label>
+             
+              <div >
+               {{-- <input type="text" required="required" class="form-control " name="price"  id="price"> --}}
+
+                <input type="text" class="form-control mt-1 " 
+                    name="price"  id="price">
+              </div>
+            
+              <h5 class="mt-3"> Select sub Image for Your Advertisment</h5>
+               <hr>
+               <div class="input-group mb-3 ">
+
+                   <input type="file" class="form-control"  id="formFile"   name="imgs[]"
+                  
+                   accept="image/*"
+                   multiple>
+                   <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
+               </div>
+               
+
+                <div class="container-fluid">
+               <div id="allphotos"  class="photos row container-fluid">          
+                    </div>
+                </div>
+             
+        
+              
+  
+             
+           </div>
+   
+                   {{-- cover-img  --}}
+                 
+                   {{-- <input class="form-control" type="file" id="formFile" name="img" id="img">
+ 
+                   <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
+                 
+            
+
+             <div class="form-group mt-1 is_active " id="is_active">
+               
+              
+               </div>
+              
+              
+                 {{-- هنا بنحط جواها الصور  --}}
+     
+
+   
+  
+           </div>
+           <div class="form-group">
+            <br>
+            <div class="col-md-6 ">
+              <button  type="submit" class="btn btn-primary  ">submit</button>
+              
+            </div>
+          </div>
+         </form>
+
+
       </div>
     </div>
     </div>
@@ -247,7 +385,7 @@ function fetchadvertisment() {
                     <td>` + item.condition + `</td>\
                     <td>` + activation  + `</td>\
                     <td>` + startus+ `</td>\
-                    <td> <img src="{{asset("Uploads/advertisments/`+item.img+`")}}" alt=""  height="40px" ></td>\
+                    <td> <img src="{{asset("Uploads/advertisments/`+item.img+`")}}" alt=""  height="40px" class="rounded-circle" ></td>\
                     /<td>
                       <button type="button" value="` + item.id + `" class="edit_btn btn btn-info  btn-xs fa fa-pencil"> Edit</button>\
                     <button type="button" value="` + item.id + `" class="btn btn-danger delete_btn fa fa-trash-o "> Delete</button></td>\
@@ -302,12 +440,25 @@ $.ajax(
       console.log(response.images)
   $.each(response.images, function (key, images) { 
                       console.log(images)
-							$('#allphotos').append(`
+							$('#allphotos').append(
+    //             `
                 
     
-    <img  src="{{asset("Uploads/Advertisments/`+images.image+`")}}" alt=""  height="40px" >
-      `
-               
+    // <img  src="{{asset("Uploads/Advertisments/`+images.image+`")}}" alt=""  height="40px" >
+    //   `
+     `      
+    <div class="col-3">
+                      <div class="image">
+                          <img src="{{asset("Uploads/advertisments/`+images.image+`")}}" class="img-fluid w-75 image_img">
+                          <div class="image_overlay">
+                              <div class="image_close">
+                                  <a href="" class="bi bi-x-circle-fill"> </a>
+
+                              </div>
+                          </div>
+
+                      </div>
+             </div>`
       );}
       );
       $.each(response.categories, function (key, categories) { 
