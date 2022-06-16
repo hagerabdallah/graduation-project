@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuctionsListTable extends Migration
+class CreateAuctionUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAuctionsListTable extends Migration
      */
     public function up()
     {
-        Schema::create('auctions_list', function (Blueprint $table) {
+        Schema::create('auction_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('auction_id')->constrained();
@@ -28,6 +28,6 @@ class CreateAuctionsListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auctions_list');
+        Schema::dropIfExists('auction_user');
     }
 }

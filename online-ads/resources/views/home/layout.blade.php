@@ -6,26 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <style>
-        .xx { position: relative; }
-     .xx .img { display: block; margin: 10; }
-      .xx .fa-download { position: absolute;  bottom:0; left:0; background-color: blue;}
-
-
-
-
-
-        </style>
+   
         <link href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" rel="stylesheet"/>
 
     <link  href="{{asset('user/css')}}/bootstrap.min.css" rel="stylesheet">
-    <link  href="{{asset('user')}}/jquery.countdown.min" rel="stylesheet">
+    {{-- <link  href="{{asset('user')}}/jquery.countdown.min" rel="stylesheet"> --}}
 
-    <link href="{{asset('user')}}/user2.css"  rel="stylesheet">
-    <link href="{{asset('user')}}/style.css"  rel="stylesheet">
-
+    {{-- <link href="{{asset('user')}}/user2.css"  rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{asset('user/icons-1.8.1/font')}}/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{asset('user')}}/HomePage.css">
+    <link rel="stylesheet" href="{{asset('home/css')}}/HomePage.css">
 
 
 
@@ -36,10 +25,10 @@
         <div class="body-overlay">
             <div id="content" class="">
 
-        @include('dashboard.user.inc.header')
+        @include('home.inc.header')
         @yield('content')
 
-        @include('dashboard.user.inc.sidebar')
+        @include('home.inc.footer')
         <script src="{{asset('admin/vendors/jquery/dist')}}/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="{{asset('admin/vendors/bootstrap/dist/js')}}/bootstrap.bundle.min.js"></script>

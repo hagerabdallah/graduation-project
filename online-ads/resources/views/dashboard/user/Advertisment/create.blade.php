@@ -47,6 +47,16 @@
                     multiple
                 >
 </div>
+
+<div class="col-md-6">
+  <br>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name='is_active'>
+    <label class="form-check-label  fs-2" for="flexCheckDefault">
+      active
+    </label>
+  </div>
+</div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 

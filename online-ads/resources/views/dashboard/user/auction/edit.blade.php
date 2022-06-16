@@ -1,3 +1,5 @@
+
+
 <form method="POST" action="{{route('user.auction.update',$auction->id)}}" enctype="multipart/form-data"  >
     @csrf
     <div class="form-group">
@@ -66,6 +68,6 @@
                     
 
 
-                    
+                   
 
                      

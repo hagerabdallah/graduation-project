@@ -41,7 +41,7 @@ class AdvertismentController extends Controller
 
 
         // $advertisment = Advertisment::where('user_id', Auth()->id())->with('category')->get();
-        $advertisment = Advertisment::findOrfail($id)->with('category')->get();
+        $advertisment = Advertisment::where('user_id',$id)->with('category')->get();
 
         // $images=Imege::where('advertisment_id',$advertisment->id)->get();
         if( $advertisment )
@@ -77,9 +77,16 @@ public function create()
      'category_id'=>'required',
     //  'imges'=>'required|image|mimes:jpg,png,jpeg',
  ]);
+ if (!$request->has('is_active')){
+    $request->request->add(['is_active' => 0]);
 
+ }
+        else{
+            $request->request->add(['is_active' => 1]);
+
+        }
 $new_name=$request->img->hashName();
-Image::make($request->img)->resize(50,50)->save(public_path('Uploads/advertisments/'.$new_name));
+Image::make($request->img)->resize(612,408)->save(public_path('Uploads/advertisments/'.$new_name));
 
  $ads=Advertisment::create([
     'user_id' => Auth()->id(),
@@ -89,7 +96,10 @@ Image::make($request->img)->resize(50,50)->save(public_path('Uploads/advertismen
     'condition'=>$request->condition,
      'img'=>$new_name,
      'category_id'=>$request->category_id,
+     'is_active' => $request->is_active
  ]);
+
+ 
  if($request->has('images')){
     foreach($request->file('images')as $image){
 $imagename ='advertisment.'.uniqid() .'.'.$image->getClientOriginalExtension();
@@ -166,6 +176,15 @@ public function update ( Request $request,$id)
         $ad->price = $request->input('price');
         $ad->condition = $request->input('condition');
         $ad->category_id = $request->input('category_id');
+        if (!$request->has('is_active')){
+            $request->request->add(['is_active' => 0]);
+
+        }
+        else{
+            $request->request->add(['is_active' => 1]);
+
+        }
+        $ad->is_active =$request->is_active;
         // cover
     $old_name=Advertisment::findOrfail($request->id)->img;
     if($request->hasFile('img')){
@@ -244,7 +263,7 @@ public function delete($id)
         $Advertisment->delete();
         return response()->json([
             'status'=>200,
-            'message'=>'Student Deleted Successfully.'
+            'message'=>'advertisment Deleted Successfully.'
         ]);
 
 
@@ -324,9 +343,9 @@ public function images($id){
 }
 
 public function search( Request $request)
-{
+{    $id = Auth::id();
     $keyword=$request->keyword;
-    $advertisments=Advertisment::where('title','like',"%$keyword%")->with('user','category')->get();
+    $advertisments=Advertisment::where('title','like',"%$keyword%")->where('user_id',$id)->with('user','category')->get();
   
     return response()->json( $advertisments);
     

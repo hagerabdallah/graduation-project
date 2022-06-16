@@ -20,7 +20,8 @@ class Auction extends Model
         'condition',
         'is_accepted',
         'is_active',
-        'created_at'
+        'created_at',
+         'address',
         
     ];
 

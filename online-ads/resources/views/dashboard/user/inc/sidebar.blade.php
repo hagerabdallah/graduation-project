@@ -7,7 +7,7 @@
     </div>
     <ul class="list-unstyled components ">
         <li class="list-unstyled components active">
-            <a href="user2.html" class="dashboard links p-2" style="color: #012970 ;"><span class=""> <i
+            <a href="{{url('user/profile')}}"class="dashboard links p-2" style="color: #012970 ;"><span class=""> <i
                         class="bi bi-person-circle"></i>Profile</span></a>
         </li>
         <hr class=" w-75 text-center m-3" style="height:0.5px; color: cornflowerblue" ;>
@@ -22,8 +22,8 @@
                 My Advertisements
                 <span class="bi bi-chevron-down"></span></a>
             <ul class="nav child_menu">
-                <li class="menu "><a href="tables2.html ">All Advertisements</a></li>
-                <li class=" menu "><a href="#">Create New</a>
+                <li class="menu "><a href="{{url('user/advertisment/index')}}">All Advertisements</a></li>
+                <li class=" menu "><a href="{{url('user/advertisment/create')}}">Create New</a>
                 </li>
             </ul>
         </li>
@@ -33,9 +33,9 @@
                 My Auctions
                 <span class="bi bi-chevron-down p-1"></span></a>
             <ul class="nav child_menu">
-                <li class=" menu "><a href="auctionTableUser.html"> All
+                <li class=" menu "><a href="{{url('user/auction/index')}}"> All
                         Auction</a> </li>
-                <li class=" menu"><a href="ceateAuctionUser.html">Create
+                <li class=" menu"><a href="{{url('user/auction/create')}}">Create
                         New</a>
                 </li>
             </ul>
@@ -54,8 +54,11 @@
         </li>
         <hr class=" w-75 text-center m-3" style="height:0.5px; color: cornflowerblue" ;>
         <li class="list-unstyled components btn">
-            <a href="" style="color: #012970 ;font-family:  'Poppins',sans-serif;"><i
-                    class="bi bi-lock "></i>LogOut</a>
+
+            <a href="{{ route('user.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" style="color: #012970 ;font-family:  'Poppins',sans-serif;"> <i class="fa fa-power-off"></i>Logout</a>
+              <form action="{{ route('user.logout') }}" method="post" class="d-none" id="logout-form">@csrf</form></i>  </a>
+            {{-- <a href="" style="color: #012970 ;font-family:  'Poppins',sans-serif;"><i
+                    class="bi bi-lock "></i>LogOut</a> --}}
         </li>
 
 

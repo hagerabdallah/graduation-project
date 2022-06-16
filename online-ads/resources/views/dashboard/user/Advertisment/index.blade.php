@@ -47,40 +47,8 @@
                           </thead>
                           <tbody id="allbooks">
 
-                            @foreach ($advertisment as $adv)
-                                
-                           
-                            <tr style="font-family: Montserrat, sans-serif; color: #455a64; font-weight: 400 ;"
-                            class="">
 
-                            {{-- <td class="p-4">{{$adv->title}}</td>
-                            <td class="p-4">{{$adv->desc}}</td> --}}
-                            {{-- <td class="p-4"> {{$adv->category->name ?? 'none'}}</td>
-
-                            <td class="p-4">{{$adv->price}}</td>
-                            <td class="p-4">{{$adv->condition}}</td>
-                            @if($adv->is_active==0)
-                              <td class="p-4">inActive</td>
-
-                            @else{
-                              <td class="p-4">Active</td>
-                            }
-                            @endif
-                            <td class="p-4">Pending</td>
-                            <td> <img  
-                              src="{{asset("uploads/Advertisments/$adv->img")}} "   
-                                    class="  img-fluid img-circle  user-image p-2">
-                            </td>
-                            <td class="p-4"> 
-                              <button type="button"  class="edit_btn btn btn-info  fa fa-pencil" value="{{$adv->id}}" > Edit</button>
-                              <button type="button"  class="delete_btn btn btn-danger  fa fa-trash-o" value="{{$adv->id}}" > Delete</button>
-
-                              
-                            </td> --}}
-
-
-                        </tr>
-                        @endforeach
+                        
                           </tbody>
                       </table>
 
@@ -159,9 +127,17 @@
                 <div >
                   <input type="text" required="required" class="form-control " name="condition"  id="condition">
                 </div>
+               </div>
+               <div  class=" col-md-6">
+                <br>
+                <label>is</span>
+                </label>
+                <div class="form-group mt-1 is_active " id="is_active"> 
 
-                
-              </div>
+
+                </div>
+               </div>
+              
               
                <div class=" col-md-6 ">
                 <br>
@@ -237,19 +213,47 @@ function fetchadvertisment() {
         dataType: "json",
         success: function (response) {
              console.log(response);
-            $('#allboks').html("");
+            $('tbody').html("");
             $.each(response.advertisment, function (key, item) {
-                $('tbody').append('<tr>\
-                    <td>' + item.title + '</td>\
-                    <td>' + item.desc + '</td>\
-                    <td>' + item.category.name + '</td>\
-                    <td>' + item.price + '</td>\
-                    <td>' + item.condition + '</td>\
-                    <td>' + item.is_active + '</td>\
-                    <td>' + item.is_accepted + '</td>\
-                    <td><button type="button" value="' + item.id + '" class="btn btn-primary edit_btn fa fa-pencil btn-sm">Edit</button></td>\
-                    <td><button type="button" value="' + item.id + '" class="btn btn-danger delete_btn fa fa-trash-o btn-sm">Delete</button></td>\
-                \</tr>');
+
+               //is_accepted apperance////////////
+               var startus;
+                 if(item.is_accepted== 1) {    
+                    startus= "accepted"
+                     
+                        }
+                        else{
+                            startus= "pending"
+
+                        }
+                     // end is_accepted apperance////////////
+                      //is_active apperance////////////
+                var activation;
+                 if(item.is_active== 1) {    
+                    activation= "active"
+                     
+                        }
+                        else{
+                            activation= "in-active"
+
+                        }
+                     // end is_active apperance////////////
+
+                $('tbody').append(`<tr>\
+                  <td>` + item.title+ `</td>\
+                  <td> `+ item.desc+`</td>\
+                    <td>` + item.category.name  + `</td>\
+                    <td>` + item.price+ `</td>\
+                    <td>` + item.condition + `</td>\
+                    <td>` + activation  + `</td>\
+                    <td>` + startus+ `</td>\
+                    <td> <img src="{{asset("Uploads/advertisments/`+item.img+`")}}" alt=""  height="40px" ></td>\
+                    /<td>
+                      <button type="button" value="` + item.id + `" class="edit_btn btn btn-info  btn-xs fa fa-pencil"> Edit</button>\
+                    <button type="button" value="` + item.id + `" class="btn btn-danger delete_btn fa fa-trash-o "> Delete</button></td>\
+                \</tr>`
+      
+                );
             });
         }
     });
@@ -288,8 +292,10 @@ $.ajax(
       $('#desc').val(response.advertisment.desc);
      
       $('#price').val(response.advertisment.price);
-      $('#condition').val(response.advertisment.condition);
-    
+      $('#condition').val(response.advertisment.condition);  
+      
+
+
        $('#allphotos').html("");
        $('#allphotos').removeClass('photos');  
         // بيرجع ال response من غيى مايشيل القديم
@@ -310,7 +316,34 @@ $.ajax(
 $('#category_id').append(``+categories.name+` `);
 
 });
-fetchadvertisment();
+
+
+       $('#is_active').html("");
+       $('#is_active').removeClass('is_active');
+    if (response.advertisment.is_active ==1){
+        $('#is_active').append(
+      `    
+      <input type="checkbox" name="is_active"  checked class="switchery  m " data-color="success" />
+      `
+          );}
+    
+    else{
+      
+
+        $('#is_active').append(
+      `    
+      <input type="checkbox"name="is_active"   class="switchery  m " data-color="success" />
+      `
+          );
+    }
+
+
+
+
+
+
+
+
  
     }}})})
  //post
@@ -406,19 +439,18 @@ $(document).on('click', '.delete_btn', function (e) {
                 url: "delete/" + id,
                 dataType: "json",
                 success: function (response) {
-                    // console.log(response);
-                    if (response.status == 404) {
-                   
-                      
-                           alert(response.message);
-                      
+               
+                  if (response.status == 500) {
+
+                            alert(response.message);
+
                     } else {
-                       
+                      
                       fetchadvertisment();
                     }
-                }
+                    }
+              });
             });
-        });
 
 
 
@@ -444,26 +476,48 @@ $(document).on('click', '.delete_btn', function (e) {
                 $('#allbooks').empty()
      
                 for (advertisment of data){
+                  
+              if(data.is_active == 1)
+              {
+                active='Active'
+              }
+              else
+              {
+                active='InActive'
+              }
+              var accept;
+              if(data.is_accepted == 1)
+              {
+                accept='Accepted'
+              }
+              else
+              {
+                accept='Pendding'
+              }
                     $('tbody').append(
                      
 
                     `
        
                    <tr>
-                   <td>${advertisment.id}</td> 
-                   <td>${advertisment.user.first_name }</td>
+                    <td>${advertisment.title}</td>
+
                   
-                   <td>${advertisment.title}</td>
                    <td>${advertisment.desc}</td>
                    <td>${advertisment.category.name }</td>
                   
                    <td>${advertisment.price}</td>
-                   <td> <img src="{{asset("Uploads/Advertisments/`+advertisment.img+`")}}" alt=""  height="40px" ></td>
                    <td>${advertisment.condition}</td>
+                   <td>`+active+`</td>
+                   <td>`+accept+`</td>
+                   <td> <img src="{{asset("Uploads/Advertisments/`+advertisment.img+`")}}" alt=""  height="40px" ></td>
+                   
                    <td>
-                    <a data-toggle="modal " data-target="#exampleModalCenter" class="btn btn-info  fa fa-pencil" value="`+advertisment.id+`"> Edit</a>
-                    <button type="button"  class="edit_btn btn btn-primary py-3 px-4" value="`+advertisment.id+`" ></button>
-                   <button id="myButton"  type="button" value="`+advertisment.id+`" class=" btn btn-danger fa fa-trash-o">deletet</button></td>
+
+
+                    
+                    <button type="button" value="` +advertisment.id+`" class="edit_btn btn btn-info  btn-xs fa fa-pencil"> Edit</button>
+                                       <button id="myButton"  type="button" value="`+advertisment.id+`" class=" btn btn-danger fa fa-trash-o">deletet</button></td>
                 
                </tr>
     

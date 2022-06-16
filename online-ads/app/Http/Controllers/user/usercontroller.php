@@ -25,7 +25,6 @@ class UserController extends Controller
         'password'=>'required|min:5|max:30',
         'phone'=>'required',
         'img'=>'required|image|mimes:jpg,png,jpeg',
-        'city'=>'required',
         ]);
         $new_name=$request->img->hashName();
         Image::make($request->img)->resize(50,50)->save(public_path('Uploads/users/'.$new_name));
@@ -37,7 +36,6 @@ class UserController extends Controller
             'password'=> Hash::make($request->password),
             'img'=>$new_name,
             'phone'=>$request->phone,
-            'city'=>$request->city,
            
         ]);
 
@@ -135,11 +133,12 @@ public function upload(Request $request,$id)
             'img'=>'required|image|mimes:jpg,png',
             
             ]);
-            $old_name=User::findOrfail($request->id)->img;
-
+            $old_name=User::findOrfail($id)->img;
+            // dd($old_name);
         if($request->hasFile('img')){
 
                unlink(public_path('Uploads/users/').$old_name);
+              
                $new_name=$request->img->hashName();
                Image::make($request->img)->resize(50,50)->save(public_path('Uploads/users/'.$new_name));
                $request->img=$new_name;

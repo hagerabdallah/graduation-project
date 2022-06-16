@@ -1,68 +1,126 @@
 
+@extends('dashboard.user.authlayout')
 
-                
-<form action="{{ route('user.create') }}" method="post" enctype="multipart/form-data" >
-    @if (Session::get('success'))
-         <div class="alert alert-success">
-             {{ Session::get('success') }}
-         </div>
-    @endif
-    @if (Session::get('fail'))
-    <div class="alert alert-danger">
-        {{ Session::get('fail') }}
+@section('content')
+@include('dashboard.admin.inc.errors')
+
+{{-- <body style="background-color: rgb(240, 238, 238);"> --}}
+    <div class="container Register" id="">
+        <div class="register">
+            <div class="row">
+                <div class="col-7">
+                    <div class="leftSide">
+                        <form action="{{ route('user.create') }}" method="post" enctype="multipart/form-data" >
+                           
+
+                            @csrf
+                            <header>
+                                Register
+                            </header>
+                        
+                            <div class="form-group">
+
+
+                                <i class="bi bi-person-dash"></i>
+                                <input class="myInput" type="text" placeholder="First Name" name="first_name" id="First Name"  value="{{ old('first_name') }}" required>
+
+                            </div>
+                            <div class="form-group">
+
+
+                                <i class="bi bi-person-dash-fill"></i>
+                                <input class="myInput" type="text" placeholder="Last Name" name="last_name" id="Last Name" value="{{ old('first_name') }}" required>
+
+                            </div>
+                            
+
+                            <div class="form-group">
+
+
+                                <i class="bi bi-envelope"></i>
+                                <input class="myInput" type="email" placeholder="Email" name="email" id="email"  value="{{ old('email') }}" required>
+
+                            </div>
+
+                            <div class="form-group">
+
+
+                                <i class="bi bi-lock"></i>
+                                <input class="myInput" type="password" placeholder="Password" name="password" id="password" value="{{ old('password') }}" required>
+
+                            </div>
+
+                            <div class="form-group">
+
+
+                                <i class="bi bi-lock-fill"></i>
+                                <input class="myInput" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" value="{{ old('cpassword') }}"
+                                    required>
+
+                            </div>
+                            
+                            <div class="form-group">
+
+
+                                <i class="bi bi-lock-fill"></i>
+                                <input class="myInput" type="phone" placeholder="phone" name="phone"  value="{{ old('phone') }}"
+                                    required>
+
+                            </div>
+
+                            <div class="form-group">
+
+
+                                    {{-- <input type="file" id="file" class="upload">
+                                    <label for="file" class=" text-center upload-label">
+
+                                        <input type="file" class="form-control-file  btn btn-info bi bi-folder-plus" name="img" >
+                                      
+                                    </label> --}}
+
+                                    <div >
+
+                                        <input type="file" id="file" class="upload" name='img' >
+                                        <label for="file" class=" text-center registerbuton ">
+
+                                            <i class="bi bi-folder-plus "></i> <span class="p-5 register1" style="color:  slateblue;;
+                                            ;font-family:Verdana, Geneva, Tahoma, sans-serif;font-weight: 500">choose a photo </span>
+                                        </label>
+                                    
+                                    </div>
+                                
+                            </div>
+
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            
+                            
+                            <div class="signup-link m-3">already have an account? <a href="{{ route('user.login') }}">signin now</a></div>
+                        </form>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="col-5">
+                    <div class="rightSide">
+
+
+                        <div class="rightBox">
+                            <header>Hello Friend!.</header>
+
+                            <p>We are Happy for Visiting Our Website! Wish You A Greatfull Shopping ,Dear</p>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+
+
+
+            </div>
+        </div>
     </div>
-    @endif
 
-    @csrf
-      <div class="form-group">
-          <label >firstName</label>
-          <input type="text" class="form-control" name="first_name" placeholder="Enter first name" value="{{ old('first_name') }}">
-          <span class="text-danger">@error('first_name'){{ $message }} @enderror</span>
-      </div>
-      <div class="form-group">
-        <label >lastName</label>
-        <input type="text" class="form-control" name="last_name" placeholder="Enter last name" value="{{ old('last_name') }}">
-        <span class="text-danger">@error('last_name'){{ $message }} @enderror</span>
-    </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="text" class="form-control" name="email" placeholder="Enter email address" value="{{ old('email') }}">
-        <span class="text-danger">@error('email'){{ $message }} @enderror</span>
-    </div>
-      <div class="form-group">
-          <label >Password</label>
-          <input type="password" class="form-control" name="password" placeholder="Enter password" value="{{ old('password') }}">
-          <span class="text-danger">@error('password'){{ $message }} @enderror</span>
-      </div>
-      <div class="form-group">
-        <label >Confirm Password</label>
-        <input type="password" class="form-control" name="cpassword" placeholder="Enter confirm password" value="{{ old('cpassword') }}">
-        <span class="text-danger">@error('cpassword'){{ $message }} @enderror</span>
-    </div>
-     <div class="form-group">
-        <label >phone</label>
-        <input type="phone" class="form-control" name="phone" placeholder="Enter phone" value="{{ old('phone') }}">
-        <span class="text-danger">@error('phone'){{ $message }} @enderror</span>
-    </div>
-
-     <div class="form-group">
-        <label >city</label>
-        <input type="text" class="form-control" name="city" placeholder="Enter city" value="{{ old('city') }}">
-        <span class="text-danger">@error('city'){{ $message }} @enderror</span>
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlFile1">Example file input</label>
-        <input type="file" class="form-control-file" name="img" >
-      </div> 
-
-
-
-      <div class="form-group">
-          <button type="submit" class="btn btn-primary">Register</button>
-      </div>
-
-
-
-  </form>
-            
-    
+@endsection

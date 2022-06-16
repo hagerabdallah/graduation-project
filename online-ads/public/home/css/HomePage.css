@@ -516,10 +516,11 @@ section {
     background: #fff;
     text-align: center;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
-    border-radius: 4px;
+    border-radius: 60px;
     position: relative;
     overflow: hidden;
     transition: 0.3s;
+
 }
 
 .pricing .box:hover {
@@ -1189,4 +1190,223 @@ section {
 .section-title p {
     margin-bottom: 0;
 }
+
+
+
+/*test add*/
+
+
+.search-bar {
+    width: 30%;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0px 0 25px 0 rgba(143, 65, 65, 0.1);
+    border-radius: 60px;
+    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.search-bar input {
+    background-color: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 10px;
+    font-size: 20px;
+    color: #131314;
+    text-align: center;
+}
+
+.search-bar button {
+    border: 0;
+    background-color: transparent;
+    color: #012970;
+}
+
+.recent-blog-posts .post-item {
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.06);
+    transition: 0.3s;
+}
+
+.recent-blog-posts .post-item .post-img img {
+    transition: 0.5s;
+}
+
+.recent-blog-posts .post-item .post-date {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-primary);
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+.recent-blog-posts .post-item .post-content {
+    padding: 30px;
+}
+
+.recent-blog-posts .post-item .post-title {
+    font-size: 24px;
+    color: var(--color-secondary);
+    font-weight: 700;
+    transition: 0.3s;
+    margin-bottom: 15px;
+}
+
+.recent-blog-posts .post-item .meta i {
+    font-size: 16px;
+    color: var(--color-primary);
+}
+
+.recent-blog-posts .post-item .meta span {
+    font-size: 15px;
+    color: #838893;
+}
+
+.recent-blog-posts .post-item hr {
+    color: #888;
+    margin: 20px 0;
+}
+
+.recent-blog-posts .post-item .readmore {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    line-height: 1;
+    transition: 0.3s;
+    color: #838893;
+}
+
+.recent-blog-posts .post-item .readmore i {
+    line-height: 0;
+    margin-left: 6px;
+    font-size: 16px;
+}
+
+.recent-blog-posts .post-item:hover .post-title,
+.recent-blog-posts .post-item:hover .readmore {
+    color: var(--color-primary);
+}
+
+.recent-blog-posts .post-item:hover .post-img img {
+    transform: scale(1.1);
+}
+
+
+
+
+/* home2 /////////////////*/
+
+
+.profile {
+    background-image: url(imgs/background2.png);
+
+    height: 680px;
+
+
+}
+
+.masthead {
+
+    height: 100%;
+    width: 100%;
+
+
+
+
+}
+
+.masthead .text h3 {
+
+    font-weight: 300;
+    font-size: 1em;
+    color: #ffffff;
+    text-shadow: 0px 5px 10px #72993c;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 7px;
+
+}
+
+.masthead .text p {
+
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+}
+
+.masthead .text .btn {
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: wheat;
+
+
+}
+
+.masthead .text .btn:hover {
+    color: #ec3237;
+
+}
+
+
+.masthead .text .btn-light {
+    background-color: transparent;
+
+
+}
+
+.masthead .text .btn-light:hover {
+    background-color: yellow;
+    color: #012970;
+
+}
+
+
+
+.Canh5 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: yellow;
+    font-weight: 700;
+    border: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

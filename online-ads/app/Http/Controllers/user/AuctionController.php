@@ -26,7 +26,7 @@ public function index(){
 /////////////////////////////////////////////////show in response
 public function fetchauction()
 {        $id = Auth::id();
-    $auction = Auction::findOrfail($id)->get();
+    $auction = Auction::where('user_id',$id)->get();
     
     // $images=Imege::where('advertisment_id',$advertisment->id)->get();
     if( $auction )
@@ -56,7 +56,9 @@ public function fetchauction()
    'end_date'=>'required|date_format:"Y-m-d H:i:s"|after:start_date',
    'img'=>'required|image|mimes:jpg,png,jpeg',
    'min_price'=>'required|numeric',
-   'condition'=>'required'
+   'condition'=>'required',
+   'address'=>'required'
+
 ]);
 
 $newname=$request->img->hashName();
@@ -70,7 +72,9 @@ $request->img=$newname;
        'end_date'=>$request->end_date,
        'img'=>$request->img,
        'min_price'=>$request->min_price,
-       'condition'=>$request->condition       
+       'condition'=>$request->condition,  
+       'address'=>$request->address       
+    
 
    ]);
 
@@ -234,17 +238,30 @@ public function deleteimage($id){
 ////****DELETE button */
 public function delete($id){
     $old_name=Auction::findOrfail($id)->img;
-    Storage::disk('Uploads')->delete('Auctions/'.$old_name);
+    if($old_name){
+    // Storage::disk('Uploads')->delete('Auctions/'.$old_name);
+    unlink(public_path('Uploads/Auctions/').$old_name);
 
     $old_names =auctiontable::where('auction_id',$id)->get();
     foreach ($old_names as $oldd) {
         unlink(public_path('Uploads/Auctions/').$oldd->image);
         auctiontable::where('auction_id',$id)->delete();
     }
- 
-
-   
    Auction::findOrfail($id)->delete();
+   return response()->json([
+    'status'=>200,
+    'message'=>'Student Deleted Successfully.'
+     ]);
+
+    }
+    else{
+        return response()->json([
+            'status'=>500,
+            'message'=>'No Student Found.'
+        ]);
+    }
+
+
 
 }
 

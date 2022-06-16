@@ -21,11 +21,8 @@
                             <label for="file" class=" text-center upload-label">
                                 <form action="{{route('user.upload',$user->id)}}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" id="file" class="upload">
 
-                                     <label for="file" class=" text-center upload-label">
-                                        <i class="bi bi-folder-plus"></i> Choose a photo
-                                    </label>
+                                     
                                     <input type="file" name="img">
                                    <input type="submit" value="Upload">
                                     {{-- <input type="submit" value="Upload"> --}}

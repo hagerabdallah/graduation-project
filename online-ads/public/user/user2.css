@@ -606,6 +606,7 @@ a:focus {
     display: none;
 }
 
+
 .upload-label {
 
     align-items: center;
@@ -832,6 +833,7 @@ a:focus {
     height: 100%;
 }
 
+
 .register {
 
     position: relative;
@@ -843,6 +845,7 @@ a:focus {
     box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
 
 }
+
 
 .rightSide header {
     color: #fff;
@@ -856,7 +859,7 @@ a:focus {
 }
 
 .leftSide .myInput {
-    width: 230px;
+    width: 400px;
     border-radius: 25px;
     padding: 10px;
     padding-left: 50px;
@@ -919,7 +922,7 @@ a:focus {
 .Register {
     position: absolute;
     max-width: 800px;
-    height: 700px;
+    height: 230px;
     margin: auto;
     top: 50%;
     left: 50%;
@@ -964,3 +967,4 @@ a:focus {
 }
 
 /*end counter*/
+

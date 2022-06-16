@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdvertismentsTable extends Migration
+class CreateAuctionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateAdvertismentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('advertisments', function (Blueprint $table) {
+        Schema::create('auctions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');;
-            $table->string('title');
+            $table->string('name');
             $table->text('desc');
+            $table->text('address');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->string('img',50);
-            $table->float('price');
+            $table->float('min_price');
             $table->string('condition');
             $table->boolean('is_active')->default(0);
             $table->boolean('is_accepted')->default(0);
@@ -35,6 +37,6 @@ class CreateAdvertismentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('advertisments');
+        Schema::dropIfExists('auctions');
     }
 }

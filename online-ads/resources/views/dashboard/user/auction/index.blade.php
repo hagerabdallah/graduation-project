@@ -120,80 +120,173 @@
                   
                   <input type="hidden" name="id" id="auc_id"> 
                   <ul class="alert alert-warning d-none" id="updateerrors"> </ul>
-                  <label  >name</span>
-                  </label>
+                  <label for="Product Name:" class="form-label "
+                            style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;">Auction
+                            Name</label>
+                  {{-- <label  >name</span>
+                  </label> --}}
                   <div >
-                    <input type="text" required="required" class="form-control " name="name" id="name" >
+
+
+                    <input type="text" class="form-control"  placeholder="Enter Name"
+                            style="border-radius: 5px; "  name="name" id="name">
+                    {{-- <input type="text" required="required" class="form-control " name="name" id="name" > --}}
                   </div>
                 </div>
                 <div  class=" col-md-6">
-                  <label  >description</span>
-                  </label>
+                  <label for="exampleFormControlTextarea1"
+                            style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;"
+                            class="form-label">Description</label>
+                  {{-- <label  >description</span>
+                  </label> --}}
                   <div >
+
+                    {{-- <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            style="border-radius: 5px;" name="desc" id="desc"></textarea> --}}
+
                     <input type="text" required="required" class="form-control " name="desc" id="desc"  >
                   </div>
                 </div>
               
                     <div  class=" col-md-6">
                       <br>
-                      <label  >price</span>
-                      </label>
+                      <label for="Product Price" class="form-label  " style=" color: #012970 ; font-family:
+                                Verdana, Geneva, Tahoma, sans-serif">Minmum Price:</label>
+                      {{-- <label  >price</span>
+                      </label> --}}
                       <div >
-                        <input type="text" required="required" class="form-control " name="min_price"  id="min_price">
+
+                        <input type="text" class="form-control " 
+                                style="border-radius: 10px;" name="min_price"  id="min_price">
+                        {{-- <input type="text" required="required" class="form-control " name="min_price"  id="min_price"> --}}
                       </div>
                     </div>
                     <div  class=" col-md-6">
                       <br>
-                      <label  >condition</span>
-                      </label>
+                      <h6 class="" style="color: #012970; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        Auction Condition</h6>
+                      {{-- <label  >condition</span>
+                      </label> --}}
                       <div >
-                        <input type="text" required="required" class="form-control " name="condition"  id="condition">
+                        <select class="form-select mt-2 ml-5" style="border-radius: 10px" aria-label="Default select example" name="condition">
+                          <option selected>Select condition</option>
+                          <option value="1">New</option>
+                          <option value="2">used</option>
+      
+                      </select>
+      
+                        {{-- <input type="text" required="required" class="form-control " name="condition"  id="condition"> --}}
                       </div>
                     </div>
                     <div  class=" col-md-6">
-                        <br>
+                        {{-- <br>
                         <label  >StartDate</span>
                         </label>
                         <div >
                           <input type="text" required="required" class="form-control " name="start_date"  id="start_date">
-                        </div>
+                        </div> --}}
+
+
+                        <p>
+                          {{-- <label for=" date">Start date</label> --}}
+                          <label for=" date"
+                            style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;">Start
+                            date</label>
+                            <br>
+                          <input data-date-format="Y-M-D H:i:s" type="text" placeholder="2022-08-14 17:36:13"  id="date" class="w-50"
+                              style="border-radius: 10px; color:#060d1a ; border-color: transparent; padding: 5px;" name="start_date" {{old('start_date')}}>
+                      </p>
                       </div>
                       <div  class=" col-md-6">
-                        <br>
+                        {{-- <br>
                         <label  >EndDate</span>
                         </label>
                         <div >
                           <input type="text" required="required" class="form-control " name="end_date"  id="end_date">
-                        </div>
+                        </div> --}}
+                        <p>
+                          <label for="date" style="color: #012970 ; font-family: Verdana, Geneva, Tahoma, sans-serif;">End
+                            date</label>
+                          {{-- <label for="date">End date</label> --}}
+                          <br>
+                          <input data-date-format="Y-M-D H:i:s" type="text" placeholder="2022-08-14 17:36:13" id="date " class="w-50"
+                              style="border-radius: 10px; color:#060d1a ; border-color: transparent; padding: 5px;" name="end_date" {{old('end_date')}}>
+                      </p>
                       </div>
                       
                         
                      <div class=" col-md-6 ">
-                      <br>
-                      <div class="input-group  ">
-                        {{-- cover-img --}}
-                        <input class="form-control" type="file" id="formFile" name="img" id="img">
+                      <h5> Select Cover Image for Your Auction</h5>
+                      <hr>
+  
+  
+                      <div class="input-group mb-3 w-75">
+  
+                          <input type="file" class="form-control"  id="formFile" name="img" id="img">
+                          <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
+                      </div>
+                    </div> 
+                      
+                        {{-- cover-img  --}}
+                      
+                        {{-- <input class="form-control" type="file" id="formFile" name="img" id="img">
       
                         <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
-                    </div>
-                  </div> 
+                      
+                 
 
                   <div class="form-group mt-1 is_active " id="is_active">
                     
                    
                     </div>
                    
-                    <div  id="allphotos" class=" photos  container-fluid  xx" >
                    
                       {{-- هنا بنحط جواها الصور  --}}
           
-                    </div>
+                    
                 
                   
                   <div class=" col-md-6 ">
-                    <br>
+                    <h5> Select sub Image for Your Auction</h5>
+                    <hr>
+                    <div class="input-group mb-3 w-75">
+
+                        <input type="file" class="form-control"  id="formFile"   name="imgs[]"
+                       
+                        accept="image/*"
+                        multiple>
+                        <label class="input-group-text" for="inputGroupFile02">Upload Cover Image</label>
+                    </div>
+                     <div class="container-fluid">
+                    <div id="allphotos"  class="photos row container-fluid">
+                      {{-- <div class="row ">
+  
+                        <div class="col-3">
+                                <div class="image">
+                                    <img src="{{asset("Uploads/auctions/`+images.image+`")}}" class="img-fluid w-75 image_img">
+                                    <div class="image_overlay">
+                                        <div class="image_close">
+                                            <a href="" class="bi bi-x-circle-fill"> </a>
+          
+                                        </div>
+                                    </div>
+          
+                                </div>
+          
+          
+                            </div>
+                        
+                              </div> --}}
+                      
+                         </div>
+                     </div>
+                  </div>
+                  
+                  
+                  
+                    {{-- <br>
                     <div class="input-group  ">
-                              {{-- sub-img --}}
+                              sub-img
 
                       <input class="form-control " type="file" id="formFile"   name="imgs[]"
                        
@@ -201,11 +294,8 @@
                       multiple>
       
                       <label class="input-group-text" for="inputGroupFile02">Upload all Images</label>
-                  </div>
-                </div>
-                   
-                  
-                  <div class="ln_solid"></div>
+                  </div> --}}
+                  {{-- <div class="ln_solid"></div> --}}
                   <div class="form-group">
                     <br>
                     <div class="col-md-6 ">
@@ -384,10 +474,26 @@ $.ajax(
       console.log(response.images)
   $.each(response.images, function (key, images) { 
                       console.log(images)
-							$('#allphotos').append(`
-     
-      <img  src="{{asset("Uploads/auctions/`+images.image+`")}}" alt=""  height="100px" >
-         <a href="" download="new-filename"><i class="fas fa-download "></i></a>
+							$('#allphotos').append(
+               
+              
+              `
+              
+                 <div class="col-3">
+                      <div class="image">
+                          <img src="{{asset("Uploads/auctions/`+images.image+`")}}" class="img-fluid w-75 image_img">
+                          <div class="image_overlay">
+                              <div class="image_close">
+                                  <a href="" class="bi bi-x-circle-fill"> </a>
+
+                              </div>
+                          </div>
+
+                      </div>
+             </div>
+    
+              
+    
     
       `
                
@@ -484,9 +590,31 @@ error: function (xhr) {
 
 
              //////////////////////  end update auctio//////////////
+             $(document).on('click', '.delete_btn', function (e) {
+            e.preventDefault();
 
+            var id = $(this).val();
 
+            $.ajax({
+                type: "get",
+                url: "delete/" + id,
+                dataType: "json",
+                success: function (response) {
+               
+                  if (response.status == 500) {
 
+                            alert(response.message);
+
+                    } else {
+                      
+                      fetchauction();
+                    }
+                    }
+              });
+            });
+        
+
+             
 })
 
     </script>
