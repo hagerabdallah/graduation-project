@@ -344,7 +344,7 @@ section {
 /*Footer --------------------------------------------------------------*/
 .footer {
     background: #f6f9ff;
-    background-color: #e1ecff;
+    background-color:white;
     ;
     padding: 0 0 30px 0;
     font-size: 14px;
@@ -604,3 +604,99 @@ section {
     color: red;
     color: #fff;
 }
+
+
+
+.jac {
+    margin-top: 100;
+  }
+  .demo {
+    font-size: 30;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: #013289;
+  }
+  
+  .auction-title {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    font-size: 1.35em;
+    line-height: 1.5em;
+    margin-top: 50;
+  }
+  .auction-id {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    display: inline-block;
+    list-style: none;
+    margin-right: 10px;
+    padding-right: 10px;
+    color: #182131;
+    font-size: 12px;
+    margin-bottom: 0 !important;
+    line-height: 18px;
+  }
+  .current-price-propductpage {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 13px;
+    vertical-align: baseline;
+    margin-top: 20px;
+    color: #333;
+  }
+  .lastprice {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1;
+    color: #333;
+    margin-left: -30;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    display: inline-block;
+    list-style: none;
+    font-size: 1.35em;
+    font-weight: 700;
+  }
+  .lastprice-num {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    display: inline-block;
+    list-style: none;
+    font-size: 1.35em;
+    font-weight: 700;
+   margin-left: 100PX;
+  }
+  .price .form-control {
+    height: 40;
+    width: 250;
+    border-radius: 10px;
+      
+  }
+  .count-item {
+    font-size: 24px;
+    
+  
+  }
+  .Insights{
+       padding-top: 40px;
+      
+  }

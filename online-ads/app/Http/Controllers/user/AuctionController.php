@@ -82,7 +82,7 @@ $request->img=$newname;
     foreach($request->file('imgs')as $image){
 
   $imagename ='auction.'.uniqid() .'.'.$image->getClientOriginalExtension();
-  $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/auctions/'.$imagename));
+  $image_resize = Image::make($image)->fit(1920,1080)->save(public_path('Uploads/auctions/'.$imagename));
         auctiontable::create([
             'auction_id'=>$newauction->id,
             'image'=>$imagename
@@ -178,7 +178,7 @@ public function update ( Request $request,$id)
     //  Storage::disk('Uploads')->delete('Advertisments/'.$old_name);
      unlink(public_path('Uploads/auctions/').$old_name);
      $new_name=$request->img->hashName();
-     Image::make($request->img)->resize(50,50)->save(public_path('Uploads/auctions/'.$new_name));
+     Image::make($request->img)->resize(612,408)->save(public_path('Uploads/auctions/'.$new_name));
      $auc->img=$new_name;
     }
     else{
@@ -193,7 +193,7 @@ if($request->has('imgs')){
      
     foreach($request->file('imgs')as $image){
      $imagename ='auction.'.uniqid() .'.'.$image->getClientOriginalExtension();
-      $image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/auctions/'.$imagename));
+      $image_resize = Image::make($image)->fit(1920,1080)->save(public_path('Uploads/auctions/'.$imagename));
             auctiontable::create([
                 'auction_id'=>$request->id,
                 'image'=>$imagename
@@ -320,6 +320,7 @@ public function show ($id)
         $auth_id = Auth::id();
         $exsit= price::where('auction_id',$id)->where('user_id',$auth_id)->first();
         // dd($exsit);
+        $data['images']=auctiontable::where('auction_id',$id)->get();
         if ($exsit ){
             $data['last_price']= $this->last_price($id); 
             

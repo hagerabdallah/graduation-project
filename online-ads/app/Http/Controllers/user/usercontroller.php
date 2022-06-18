@@ -67,7 +67,7 @@ class UserController extends Controller
             // $is_login=$request->only('email','password');
             if(auth::attempt(['email' => $request->email,'password' => $request->password]) )
             {
-                return redirect()->route('user.home');
+                return redirect('home/main');
             }
             else
             {
@@ -80,7 +80,7 @@ class UserController extends Controller
     
     public function logout(){
         Auth::guard('web')->logout();
-        return redirect('/');
+        return redirect('home/main');
     }
     public function profile()
     {

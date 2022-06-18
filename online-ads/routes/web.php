@@ -4,6 +4,8 @@ use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\admin\adminController;
+use App\Http\Controllers\HomeController;
+
 use App\Http\Controllers\admin\AdsController;
 use App\Http\Controllers\admin\ClientsController;
 use App\Http\Controllers\admin\ClientauctionController;
@@ -32,11 +34,17 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
  
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('home.mainhome');
+
+
+// });
 ################################################user#########################################
+// Route::get('/', function () {
+//   return view('welcome');
+// });
 Auth::routes();
+
 
 Route::prefix('user')->name('user.')->group(function () {
       //guestuser
@@ -45,6 +53,11 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::view('/register', 'dashboard.user.register')->name('register');
       Route::post('/create', [UserController::class,'create'])->name('create');
       Route::post('/check', [UserController::class,'check'])->name('check');
+      Route::get('/advertisment/show/{id}',[AdvertismentController::class,'show'])->name('advertisment.show');
+      Route::get('/advertisment/show/{id}',[AdvertismentController::class,'images'])->name('advertisment.images');
+
+      Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
+
       Route::view('/layout', 'dashboard.admin.layout');
     //end guest user
       
@@ -65,9 +78,7 @@ Route::prefix('user')->name('user.')->group(function () {
       Route::get('/advertisment/edit/{id}',[AdvertismentController::class,'edit'])->name('advertisment.edit');
       Route::post('/advertisment/update/{id}',[AdvertismentController::class,'update'])->name('advertisment.update');
       Route::post('/advertisment/wishlist',[AdvertismentController::class,'addtowishlist'])->name('advertisment.addtowishlist');
-      Route::get('/advertisment/show/{id}',[AdvertismentController::class,'show'])->name('advertisment.show');
       Route::get('/advertisment/favoriets',[AdvertismentController::class,'favoriets'])->name('advertisment.favoriets');
-      Route::get('/advertisment/show/{id}',[AdvertismentController::class,'images'])->name('advertisment.images');
       Route::get('/advertisment/deleteimage/{id}',[AdvertismentController::class,'deleteimage'])->name('adv.delete.imgs');
       Route::get('/advertisment/fetch-advertisment', [AdvertismentController::class, 'fetchadvertisment'])->name('adv.fetch');
       Route::get('/advertisment/search',[AdvertismentController::class,'search'])->name('ads.search');
@@ -81,11 +92,9 @@ Route::prefix('user')->name('user.')->group(function () {
        Route::get('auction/edit/{id}',[AuctionController::class,'edit'])->name('auction.edit');
        Route::post('auction/update/{id}',[AuctionController::class,'update'])->name('auction.update');
        Route::get('auction/delete/{id}',[AuctionController::class,'delete'])->name('auction.delete');
-       Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
        Route::post('/auction/join',[AuctionController::class,'join'])->name('auction.join');
        Route::get('/auction/bidders/{id}',[AuctionController::class,'bidders_info'])->name('auction.bidders_info');
        Route::get('/auction/biddersjoin',[AuctionController::class,'bidders_jion'])->name('auction.bidders_jion'); //الاوكشن اللي الشخص اشترك فيه
-       Route::get('/auction/show/{id}',[AuctionController::class,'show'])->name('auction.show');
        Route::get('/auction/deleteimage/{id}',[AuctionController::class,'deleteimage'])->name('auction.deleteimage');
        Route::get('/auction/fetch-auction', [AuctionController::class, 'fetchauction'])->name('auction.fetch');
        Route::get('/auction/disenroll/{id}', [AuctionController::class, 'disenroll'])->name('auction.disenroll');
@@ -179,7 +188,7 @@ Route::prefix('home')->name('home.')->group(function(){
 
   Route::get('/allAds',[homeadvertismentcontroller::class,'index'])->name('index');
   Route::get('/allauctions',[homeauctioncontroller::class,'index'])->name('index');
-
+  Route::get('/main',[HomeController::class,'index'])->name('index');
 
 
 });

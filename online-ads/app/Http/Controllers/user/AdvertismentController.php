@@ -107,7 +107,7 @@ Image::make($request->img)->resize(612,408)->save(public_path('Uploads/advertism
  if($request->has('images')){
     foreach($request->file('images')as $image){
 $imagename ='advertisment.'.uniqid() .'.'.$image->getClientOriginalExtension();
-$image_resize = Image::make($image)->fit(250,270)->save(public_path('Uploads/advertisments/'.$imagename));
+$image_resize = Image::make($image)->fit(1920,1080)->save(public_path('Uploads/advertisments/'.$imagename));
   
 
         Imege::create([
@@ -328,14 +328,14 @@ public function favoriets()
 #######################ahow advertisments
 public function show ($id)
 {
-    $rating=Rating::where('advertisment_id',$id)->avg('rating');
+    // $rating=Rating::where('advertisment_id',$id)->avg('rating');
    
-    $Advertisment=Advertisment::findOrfail($id);
+    $advertisment=Advertisment::findOrfail($id);
     
     $images=Imege::select('image');
-   ;     
+      
    
-   return view ('dashboard.user.advertisment.show',compact('Advertisment','rating','images','data'));
+   return view ('dashboard.user.advertisment.show',compact('advertisment','images'));
 }
 
 public function images($id){

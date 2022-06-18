@@ -14,7 +14,11 @@
 
     {{-- <link href="{{asset('user')}}/user2.css"  rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{asset('user/icons-1.8.1/font')}}/bootstrap-icons.css">
+    <link href="{{asset('user')}}/style.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{{asset('home/css')}}/HomePage.css">
+    <link rel="stylesheet" href="{{asset('home/css')}}/mainHomePage.css">
+
 
 
 
